@@ -1,0 +1,78 @@
+/* ── Footer (bogaty, dark, zaokrąglona góra — wjeżdża na sekcję powyżej) ──
+   Kolory pochodne od --c-brand-hover przez color-mix — działa dla dowolnego
+   odcienia marki, nie tylko zieleni. */
+.iab-footer {
+	position: relative; z-index: 2; isolation: isolate;
+	background:
+		radial-gradient(120% 80% at 80% 0%, color-mix(in srgb, var(--c-brand-hover) 88%, black) 0%, transparent 55%),
+		linear-gradient(180deg, var(--c-brand-hover) 0%, color-mix(in srgb, var(--c-brand-hover) 68%, black) 62%);
+	color: color-mix(in srgb, var(--c-on-brand) 74%, var(--c-brand-deep));
+	margin-top: -44px;
+	border-top-left-radius: 40px; border-top-right-radius: 40px;
+	box-shadow: 0 -22px 55px color-mix(in srgb, var(--c-ink) 22%, transparent);
+}
+/* Subtelny dot-pattern (głębia) */
+.iab-footer::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: radial-gradient(circle, color-mix(in srgb, var(--c-accent) 10%, transparent) 1.2px, transparent 1.3px); background-size: 28px 28px; -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000, transparent 78%); mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000, transparent 78%); }
+
+/* ── Modal newsletter (center, backdrop blur, entrance scale) — używany gdy inc/newsletter.php aktywny ── */
+.iab-nl-modal { position: fixed; inset: 0; z-index: 9990; display: flex; align-items: center; justify-content: center; padding: var(--sp-4); opacity: 0; visibility: hidden; transition: opacity .3s var(--ease), visibility .3s; }
+.iab-nl-modal.is-open { opacity: 1; visibility: visible; }
+.iab-nl-modal__backdrop { position: absolute; inset: 0; background: color-mix(in srgb, var(--c-brand-deep) 70%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.iab-nl-modal__card { position: relative; z-index: 1; width: 100%; max-width: 480px; background: var(--c-card); border-radius: var(--radius-xl); padding: clamp(1.75rem, 4vw, 2.75rem); box-shadow: var(--shadow-modal); text-align: center; transform: scale(.94) translateY(10px); transition: transform .45s cubic-bezier(.2,.8,.2,1); border-top: 4px solid var(--c-accent); }
+.iab-nl-modal.is-open .iab-nl-modal__card { transform: none; }
+.iab-nl-modal__close { position: absolute; top: 12px; right: 12px; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; background: var(--c-bg-alt); border: 0; border-radius: 50%; color: var(--c-ink-soft); cursor: pointer; transition: background var(--dur-fast) var(--ease); }
+.iab-nl-modal__close:hover { background: var(--c-line); color: var(--c-ink); }
+.iab-nl-modal__ico { display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 50%; background: var(--c-brand-soft); color: var(--c-brand-ink); margin-bottom: var(--sp-4); }
+.iab-nl-modal__title { font-size: clamp(1.5rem, 2vw + 1rem, 2rem); margin: var(--sp-2) 0; color: var(--c-ink); }
+.iab-nl-modal__lead { color: var(--c-ink-soft); font-size: var(--text-sm); line-height: 1.55; margin-bottom: var(--sp-5); }
+@media (prefers-reduced-motion: reduce) { .iab-nl-modal, .iab-nl-modal__card { transition: opacity .2s; } .iab-nl-modal__card { transform: none; } }
+
+/* „Zarezerwuj online" — akcent, wyróżniony na ciemnym footerze */
+.iab-footer__cta { background: var(--c-accent); border-color: var(--c-accent); color: var(--c-brand-deep); font-weight: 700; box-shadow: 0 4px 14px color-mix(in srgb, var(--c-accent) 30%, transparent); }
+.iab-footer__cta:hover { background: var(--c-accent-hover); border-color: var(--c-accent-hover); color: var(--c-on-brand); transform: translateY(-1px); }
+.iab-footer__cta svg { color: inherit; }
+.iab-footer a { color: color-mix(in srgb, var(--c-on-brand) 74%, var(--c-brand-deep)); transition: color var(--dur-fast) var(--ease); }
+.iab-footer a:hover { color: var(--c-on-brand); }
+.iab-footer svg { flex: 0 0 auto; }
+
+.iab-footer__top { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1.2fr; gap: var(--sp-7); padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: var(--sp-7); }
+.iab-footer__brand-link { display: inline-flex; align-items: center; gap: var(--sp-3); }
+.iab-footer__brand { color: var(--c-on-brand); font-family: var(--font-display); font-size: var(--text-xl); font-weight: 400; }
+.iab-footer__logo { max-height: 52px; width: auto; }
+.iab-footer__desc { margin-top: var(--sp-4); color: color-mix(in srgb, var(--c-on-brand) 58%, var(--c-brand-deep)); max-width: 34ch; font-size: var(--text-sm); line-height: 1.6; }
+.iab-footer__social { display: flex; gap: var(--sp-3); margin-top: var(--sp-5); }
+.iab-footer__social a { display: inline-flex; width: 40px; height: 40px; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--c-on-brand) 20%, transparent); border-radius: 50%; color: color-mix(in srgb, var(--c-on-brand) 85%, var(--c-brand-deep)); }
+.iab-footer__social a:hover { background: var(--c-accent); border-color: var(--c-accent); color: var(--c-brand-deep); transform: translateY(-2px); }
+
+.iab-footer__h { color: var(--c-on-brand); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .1em; margin-bottom: var(--sp-4); font-weight: 600; }
+.iab-footer__list, .iab-footer__menu { list-style: none; display: flex; flex-direction: column; gap: var(--sp-3); font-size: var(--text-sm); }
+.iab-footer__list a, .iab-footer__list span, .iab-footer__menu a { display: inline-flex; align-items: center; gap: 8px; }
+/* var(--c-accent) to navy z tej samej rodziny co tło footera (color-mix z --c-brand-hover)
+   -> navy-na-navy, prawie niewidoczne. Footer jest jedynym ciemnym kontekstem tego
+   komponentu, więc ikony dostają jasny akcent (--c-brand-soft), tak jak reszta treści
+   footera używa --c-on-brand zamiast --c-ink. */
+.iab-footer__list svg { color: var(--c-brand-soft); }
+/* var(--c-accent) to ta sama granatowa rodzina co tło stopki — link "Alle Leistungen"
+   był praktycznie niewidoczny (user 2026-09-14: "link jest niewidoczny do wszystkich usług"). */
+.iab-footer__more { color: var(--c-brand-soft) !important; font-weight: 600; }
+.iab-footer__more:hover { color: #fff !important; }
+.iab-footer__contact .iab-btn { margin-top: var(--sp-5); }
+
+/* Pasek miast (moduł landing-miasto — puste = brak stron z _iab_city, sekcja się nie renderuje) */
+.iab-footer__cities { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-4); padding-block: var(--sp-5); border-top: 1px solid color-mix(in srgb, var(--c-on-brand) 10%, transparent); font-size: var(--text-sm); }
+.iab-footer__cities-label { color: color-mix(in srgb, var(--c-on-brand) 50%, var(--c-brand-deep)); font-weight: 600; }
+.iab-footer__cities a { color: color-mix(in srgb, var(--c-on-brand) 66%, var(--c-brand-deep)); }
+.iab-footer__cities a:hover { color: var(--c-on-brand); }
+
+/* Pasek dolny */
+.iab-footer__bottom { border-top: 1px solid color-mix(in srgb, var(--c-on-brand) 10%, transparent); }
+.iab-footer__bottom-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3) var(--sp-5); padding-block: var(--sp-5); font-size: var(--text-xs); color: color-mix(in srgb, var(--c-on-brand) 52%, var(--c-brand-deep)); }
+.iab-footer__legal { display: flex; gap: var(--sp-4); }
+.iab-footer__credit a { color: var(--c-on-brand); }
+
+@media (max-width: 920px) { .iab-footer__top { grid-template-columns: 1fr 1fr; gap: var(--sp-6); } }
+@media (max-width: 560px) {
+	.iab-footer { margin-top: -28px; border-top-left-radius: 26px; border-top-right-radius: 26px; }
+	.iab-footer__top { grid-template-columns: 1fr; }
+	.iab-footer__bottom-inner { flex-direction: column; align-items: flex-start; }
+}

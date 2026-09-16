@@ -1,0 +1,8 @@
+/* ── Breadcrumbs ── */
+.iab-breadcrumbs { padding-block: var(--sp-4); border-bottom: 1px solid var(--c-line); }
+.iab-breadcrumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); list-style: none; font-size: var(--text-sm); color: var(--c-muted); }
+.iab-breadcrumbs li { display: flex; align-items: center; gap: var(--sp-2); }
+.iab-breadcrumbs li + li::before { content: "/"; color: var(--c-line); }
+.iab-breadcrumbs a { color: var(--c-muted); }
+.iab-breadcrumbs a:hover { color: var(--c-brand-ink); }
+.iab-breadcrumbs [aria-current="page"] { color: var(--c-ink); font-weight: var(--fw-medium); }

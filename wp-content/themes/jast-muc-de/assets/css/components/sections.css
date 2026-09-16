@@ -1,0 +1,606 @@
+/* ============================================================
+   SECTIONS — style biblioteki sekcji.
+   ============================================================ */
+
+/* ── Hero (full-bleed, płasko — feedback klienta 2026-09-13: „pływający" zaokrąglony
+   border z marginesem czytał się jako AI slop I dawał realny bug: margin (--sp-4) +
+   padding .iab-container w środku = treść hero zaczynała się 32px od krawędzi, podczas
+   gdy każda inna sekcja strony (bez tego marginesu) zaczyna się 16px — hero wizualnie
+   "krzywy" względem reszty. Bez marginesu/radiusu wyrównuje się z resztą strony. ── */
+.iab-hero {
+	position: relative; isolation: isolate; overflow: hidden;
+	min-height: clamp(540px, 78vh, 820px);
+	display: flex; align-items: center;
+}
+.iab-hero__media { position: absolute; inset: 0; z-index: -2; background-color: var(--c-bg-alt); background-size: cover; background-position: center; }
+.iab-hero__overlay { position: absolute; inset: 0; z-index: -1; }
+/* Wariant ze zdjęciem/wideo w tle: ciemny overlay + jasny tekst */
+.iab-hero--media .iab-hero__overlay { background: linear-gradient(180deg, rgba(15,18,28,.25) 0%, rgba(15,18,28,.65) 100%); }
+/* Wariant wideo — <video> jako pełnoekranowe tło */
+.iab-hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.iab-hero--media .iab-hero__title, .iab-hero--media .iab-hero__lead, .iab-hero--media .iab-hero__proof { color: #fff; }
+.iab-hero--media .iab-eyebrow { color: #fff; }
+/* Słowo-akcent w H1 — na jasnym tle strony = navy (jedyny akcent marki). W hero na
+   zdjęciu z ciemnym overlayem navy miałby słaby kontrast (navy-na-ciemnym), więc
+   wariant --media dostaje biały tekst + podkreślenie navy (akcent przez kreskę,
+   nie przez kolor tekstu) — czytelne niezależnie od zdjęcia w tle. */
+.iab-hero__accent-word { color: var(--c-accent); }
+.iab-hero--media .iab-hero__accent-word { color: #fff; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; text-decoration-color: var(--c-brand-soft); }
+/* Kontrast mikro-trust row na zdjęciu — jaśniejszy niż domyślny --c-muted (który jest
+   stonowany pod jasne tło), tu potrzeba czytelności na ciemnym gradencie zdjęcia. */
+.iab-hero--media .iab-hero__rating-sub, .iab-hero--media .iab-hero__proof-note { color: #fff; opacity: .85; }
+.iab-hero--media .iab-hero__proof-note .iab-ico { color: var(--c-success); }
+.iab-hero--media .iab-hero__proof-sep { background: rgba(255,255,255,.35); }
+.iab-hero--media .iab-hero__proof { border-top-color: rgba(255,255,255,.25); }
+/* Secondary button na zdjęciu dziedziczył ciemny --c-ink jako color (biały border +
+   czarny tekst = nieczytelne na ciemnym overlayu) — jak .iab-cta-band/.iab-local-hero,
+   dostaje biały tekst + półprzezroczysty biały border. */
+.iab-hero--media .iab-btn--secondary { color: #fff; border-color: rgba(255,255,255,.6); }
+.iab-hero--media .iab-btn--secondary:hover { background: rgba(255,255,255,.14); border-color: #fff; color: #fff; }
+
+.iab-hero__inner { width: 100%; padding-block: var(--sp-8); }
+.iab-hero__copy { max-width: 720px; }
+.iab-hero__title { font-size: var(--text-2xl); margin: var(--sp-2) 0 var(--sp-4); }
+.iab-hero__lead { font-size: var(--text-lg); color: var(--c-ink-soft); max-width: 56ch; }
+.iab-hero .iab-flow-cta { margin-top: var(--sp-6); }
+
+.iab-hero__proof { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-6); padding-top: var(--sp-5); border-top: 1px solid var(--c-line); }
+.iab-hero__rating { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--text-sm); }
+.iab-hero__stars { display: inline-flex; color: #f5a623; }
+.iab-hero__rating strong { font-size: var(--text-base); }
+.iab-hero__rating-sub, .iab-hero__proof-note { color: var(--c-muted); font-size: var(--text-sm); display: inline-flex; align-items: center; gap: var(--sp-2); }
+.iab-hero__proof-note .iab-ico { color: var(--c-success); }
+.iab-hero__proof-sep { width: 1px; height: 28px; background: var(--c-line); }
+
+/* Wskaźnik scrolla (mikro-interakcja, prowadzi do sekcji oferty) */
+.iab-hero__scroll { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); width: 26px; height: 42px; border: 1.5px solid var(--c-line); border-radius: var(--radius-pill); display: flex; justify-content: center; padding-top: 8px; transition: border-color var(--dur-base) var(--ease); z-index: 1; }
+.iab-hero--media .iab-hero__scroll, .iab-hero--video .iab-hero__scroll { border-color: rgba(255,255,255,.5); }
+.iab-hero__scroll:hover { border-color: var(--c-accent); }
+.iab-hero__scroll span { width: 3px; height: 8px; background: var(--c-accent); animation: iab-scroll 1.8s var(--ease) infinite; }
+@keyframes iab-scroll { 0% { opacity: 0; transform: translateY(-4px); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(12px); } }
+
+@media (max-width: 720px) {
+	.iab-hero { margin: 0; border-radius: 0; min-height: auto; }
+	.iab-hero__inner { padding-block: var(--sp-8) var(--sp-7); }
+	.iab-hero__proof { gap: var(--sp-3); }
+	.iab-hero__scroll { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .iab-hero__scroll span { animation: none; } }
+
+/* ============================================================
+   WARIANTY OPCJONALNE — dostępne w bibliotece, NIE domyślne.
+   Świadomy wybór per klient (patrz web-design-flow FAZA 0), nie
+   automatyczne zachowanie startera. Użycie: dodaj klasę modyfikator
+   do template-parts sekcji przy customowym redesignie klienta.
+   ============================================================ */
+
+/* ── Hero „editorial sticky" — full-bleed, przykleja się pod headerem,
+   następna sekcja (z klasą .iab-rise) wjeżdża na niego przy scrollu.
+   Wymaga: sekcja PO hero ma klasę .iab-rise + solidne tło (żeby nie
+   przepuszczała wideo hero). Źródło wzorca: build dietetyczny-nawyk. ── */
+.iab-hero--editorial {
+	position: sticky; top: var(--header-h); z-index: 0;
+	isolation: isolate; overflow: hidden;
+	height: calc(100svh - var(--header-h)); min-height: 520px;
+	display: flex; color: var(--c-on-brand);
+	margin: 0; border-radius: 0;
+}
+@media (prefers-reduced-motion: reduce) { .iab-hero--editorial { position: relative; height: auto; min-height: 80vh; } }
+.iab-hero--editorial .iab-hero__bg { position: absolute; inset: -8% 0; z-index: -2; background-size: cover; background-position: center; will-change: transform; transform: translateY(var(--py, 0)); }
+.iab-hero--editorial.is-gradient .iab-hero__bg {
+	background:
+		radial-gradient(80% 70% at 78% 18%, color-mix(in srgb, var(--c-accent) 42%, transparent) 0%, transparent 55%),
+		linear-gradient(146deg, color-mix(in srgb, var(--c-brand) 80%, black) 0%, var(--c-brand) 42%, var(--c-brand-hover) 100%);
+}
+.iab-hero--editorial .iab-hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.iab-hero--editorial .iab-hero__scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in srgb, var(--c-ink) 50%, transparent) 0%, color-mix(in srgb, var(--c-ink) 30%, transparent) 38%, color-mix(in srgb, var(--c-ink) 90%, transparent) 100%); }
+.iab-hero--editorial .iab-hero__inner { width: 100%; align-self: stretch; display: flex; flex-direction: column; justify-content: flex-end; padding-top: clamp(3rem, 7vh, 6rem); padding-bottom: clamp(5rem, 11vh, 8rem); }
+@media (max-width: 720px) { .iab-hero--editorial { min-height: 86vh; } }
+
+/* Sekcja która „nasuwa się" na hero editorial (użyj razem, nie osobno). */
+.iab-rise--overlap {
+	position: relative; z-index: 2; background: var(--c-bg);
+	border-top-left-radius: 40px; border-top-right-radius: 40px;
+	box-shadow: 0 -24px 60px color-mix(in srgb, var(--c-ink) 28%, transparent);
+}
+@media (max-width: 600px) { .iab-rise--overlap { border-top-left-radius: 26px; border-top-right-radius: 26px; } }
+
+/* ── Bento oferty (wielkość kafla = priorytet) — alternatywa dla .iab-media-grid,
+   z tiltem 3D (JS bentoTilt()) + glare. ── */
+.iab-bento { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 198px; gap: var(--sp-4); }
+.iab-bento__card { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: var(--sp-5); color: var(--c-on-brand); background-size: cover; background-position: center; box-shadow: var(--shadow-card); border-radius: var(--radius-lg); transform-style: preserve-3d; transition: transform .2s var(--ease-out), box-shadow var(--dur-base) var(--ease); }
+.iab-bento__card--lg { grid-column: span 2; grid-row: span 2; }
+.iab-bento__card--wide { grid-column: span 2; }
+.iab-bento__bg { position: absolute; inset: 0; z-index: -2; background-size: cover; background-position: center; transition: transform .6s var(--ease); }
+.iab-bento__card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in srgb, var(--c-ink) 12%, transparent) 0%, color-mix(in srgb, var(--c-ink) 42%, transparent) 46%, color-mix(in srgb, var(--c-ink) 88%, transparent) 100%); }
+.iab-bento__glare { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .35s var(--ease); mix-blend-mode: soft-light; background: radial-gradient(circle at var(--glx,50%) var(--gly,50%), rgba(255,255,255,.5), transparent 42%); }
+.iab-bento__card:hover .iab-bento__glare { opacity: 1; }
+.iab-bento__card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--c-accent); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-slow) var(--ease-out); z-index: 2; }
+.iab-bento__card:hover::before { transform: scaleX(1); }
+.iab-bento__card:hover { box-shadow: var(--shadow-lift); }
+.iab-bento__card:hover .iab-bento__bg { transform: scale(1.06); }
+.iab-bento__body { position: relative; z-index: 1; }
+.iab-bento__title { font-family: var(--font-display); font-weight: 400; color: var(--c-on-brand); font-size: clamp(1.25rem, 1vw + 1rem, 1.9rem); line-height: 1.05; }
+.iab-bento__card--lg .iab-bento__title { font-size: clamp(1.8rem, 2vw + 1rem, 2.8rem); }
+.iab-bento__desc { color: color-mix(in srgb, var(--c-on-brand) 85%, transparent); font-size: var(--text-sm); margin-top: var(--sp-2); max-width: 36ch; }
+.iab-bento__foot { display: flex; align-items: center; justify-content: space-between; margin-top: var(--sp-4); }
+.iab-bento__price { font-family: var(--font-body); font-weight: 600; color: var(--c-accent); font-size: var(--text-base); }
+.iab-bento__arrow { display: inline-flex; width: 38px; height: 38px; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--c-on-brand) 40%, transparent); color: var(--c-on-brand); margin-left: auto; transition: background var(--dur-base) var(--ease), transform var(--dur-base) var(--ease); }
+.iab-bento__card:hover .iab-bento__arrow { background: var(--c-accent); border-color: var(--c-accent); color: var(--c-ink); transform: translateX(3px); }
+@media (max-width: 1024px) { .iab-bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 190px; } .iab-bento__card--lg { grid-column: span 2; grid-row: span 1; min-height: 260px; } }
+@media (max-width: 640px) { .iab-bento { grid-template-columns: 1fr; } .iab-bento__card, .iab-bento__card--lg, .iab-bento__card--wide { grid-column: span 1; } }
+
+/* ── Timeline procesu — alternatywa dla .iab-process (sticky linia + karty kroków) ── */
+.iab-timeline { list-style: none; position: relative; padding-left: 0; }
+.iab-timeline__track { position: absolute; left: 27px; top: 18px; bottom: 18px; width: 2px; background: var(--c-line); overflow: hidden; }
+.iab-timeline__fill { position: absolute; inset: 0 0 auto 0; height: 0; background: linear-gradient(180deg, var(--c-brand), var(--c-accent)); transition: height .15s linear; }
+.iab-timeline__step { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: var(--sp-5); align-items: start; padding: 0 0 var(--sp-7) 0; }
+.iab-timeline__step:last-child { padding-bottom: 0; }
+.iab-timeline__marker { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--c-card); border: 1.5px solid var(--c-line); color: var(--c-accent-text); font-family: var(--font-display); font-weight: 400; font-size: var(--text-lg); transition: transform var(--dur-base) var(--ease), background var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease); }
+.iab-timeline__step.is-active .iab-timeline__marker { background: linear-gradient(150deg, var(--c-brand), var(--c-brand-hover)); border-color: var(--c-brand); color: var(--c-on-brand); transform: scale(1.06); box-shadow: 0 0 0 5px var(--c-bg-alt), 0 12px 26px color-mix(in srgb, var(--c-brand) 30%, transparent); }
+.iab-timeline__body { background: var(--c-card); border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: var(--sp-5); transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease); }
+.iab-timeline__step.is-active .iab-timeline__body { border-color: var(--c-brand-soft); box-shadow: var(--shadow-card); }
+.iab-timeline__body h3 { font-size: clamp(1.2rem, 1vw + 0.9rem, 1.5rem); margin-bottom: var(--sp-2); transition: color var(--dur-base) var(--ease); }
+.iab-timeline__step.is-active .iab-timeline__body h3 { color: var(--c-brand-ink); }
+.iab-timeline__body p { color: var(--c-ink-soft); max-width: 44ch; margin: 0; }
+@media (max-width: 720px) { .iab-timeline__track { left: 23px; } .iab-timeline__step { grid-template-columns: 48px 1fr; gap: var(--sp-4); } .iab-timeline__marker { width: 48px; height: 48px; } }
+
+/* ── Karty generyczne (blog/realizacje/cennik) ── */
+.iab-card h3 { margin-bottom: var(--sp-2); }
+.iab-card p { color: var(--c-ink-soft); font-size: var(--text-sm); }
+.iab-card__price { display: inline-block; margin-top: var(--sp-3); font-weight: var(--fw-semibold); color: var(--c-brand-ink); }
+
+/* ── Oferta: media-cards (TŁO na kafelku, overlay, ZERO ikon) ── */
+/* Proporcja siatki 4 kategorii = gemkibo.pl "Przeglądaj kategorie" (user 2026-09-13):
+   3 kolumny, 2 rzędy — [A: duży, lewa kolumna, pełna wysokość] [B: mały prawy-górny]
+   [C: mały prawy-górny #2] / [pusta pod A] [D: szeroki prawy-dolny, spina B+C]. */
+.iab-media-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 300px 300px; gap: var(--sp-5); }
+/* will-change: pre-promuje kafelek do własnej warstwy kompozycji ZANIM hover odpali
+   transform — bez tego niektóre przeglądarki promują warstwę DOPIERO na hover, co bywa
+   źródłem jednoklatkowego "mignięcia"/zniknięcia treści w trakcie promocji warstwy. */
+.iab-media-card { position: relative; isolation: isolate; display: flex; align-items: flex-end; border-radius: var(--radius-lg); overflow: hidden; background-size: cover; background-position: center; box-shadow: var(--shadow-card); color: #fff; transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease); will-change: transform; }
+.iab-media-card__body { position: relative; z-index: 1; }
+.iab-media-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+.iab-media-card--a { grid-column: 1; grid-row: 1 / 3; }
+.iab-media-card--b { grid-column: 2; grid-row: 1; }
+.iab-media-card--c { grid-column: 3; grid-row: 1; }
+.iab-media-card--d { grid-column: 2 / 4; grid-row: 2; }
+.iab-media-card__bg { position: absolute; inset: 0; z-index: -2; }
+/* Kafelek bez zdjęcia: fallback gradient w tonach marki (ZERO tęczy/losowych hue). */
+.iab-media-card__bg[data-gradient] { background: linear-gradient(150deg, var(--c-brand-hover) 0%, var(--c-brand-deep) 100%); }
+.iab-media-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 25%, rgba(10,12,20,.82) 100%); }
+.iab-media-card__body { padding: var(--sp-5); }
+.iab-media-card__title { color: #fff; }
+.iab-media-card__desc { color: rgba(255,255,255,.85); font-size: var(--text-sm); margin-top: var(--sp-2); }
+.iab-media-card__arrow { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--sp-3); font-weight: var(--fw-semibold); font-size: var(--text-sm); }
+.iab-media-card__arrow .iab-ico { transition: transform var(--dur-base) var(--ease); }
+.iab-media-card:hover .iab-media-card__arrow .iab-ico { transform: translateX(4px); }
+.iab-section-foot { text-align: center; margin-top: var(--sp-7); }
+@media (max-width: 1024px) {
+	/* 4 kafle w 2 kolumnach = 2×2 dokładnie, zero reszty — bez wyróżnienia rozmiarem. */
+	.iab-media-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 260px); }
+	.iab-media-card--a, .iab-media-card--b, .iab-media-card--c, .iab-media-card--d { grid-column: auto; grid-row: auto; }
+}
+@media (max-width: 640px) { .iab-media-grid { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-rows: 240px; } }
+
+/* ── Dlaczego my — edytorialna lista hairline (NIE karty-w-ramce z ikoną-w-kółku):
+   liczba serif jako kotwica, cienka linia dzieli pozycje, zero border/radius/tint
+   na itemie. Rebuild 2026-09-13 po feedbacku "wygląda jak stworzone przez bota" —
+   poprzednia wersja to dokładnie card+border+icon-circle z web-design-flow anty-slop. ── */
+.iab-why { display: grid; grid-template-columns: .85fr 1.15fr; gap: var(--sp-9); align-items: start; }
+.iab-why__intro p { color: var(--c-ink-soft); margin: var(--sp-3) 0 var(--sp-5); }
+.iab-why__list { list-style: none; display: block; border-top: 1px solid var(--c-line); counter-reset: why; }
+.iab-why__item { counter-increment: why; display: grid; grid-template-columns: 56px 1fr; gap: var(--sp-5); align-items: baseline; padding: var(--sp-5) 0; border-bottom: 1px solid var(--c-line); }
+.iab-why__item::before {
+	content: counter(why, decimal-leading-zero);
+	font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; color: var(--c-accent);
+	line-height: 1;
+}
+.iab-why__check { display: none; } /* zastąpione liczbą w ::before — SVG check nie renderuje się już jako centralny element */
+.iab-why__item strong { display: block; font-size: var(--text-base); }
+.iab-why__item p { color: var(--c-ink-soft); font-size: var(--text-sm); margin-top: 4px; max-width: 46ch; }
+@media (max-width: 1024px) { .iab-why { grid-template-columns: 1fr; gap: var(--sp-6); } }
+
+/* Pasek liczb jako zamknięcie tej samej sekcji "Über uns" (feedback: statystyki mają być
+   POŁĄCZONE z sekcją o nas, nie osobną, pełną sekcją z twardym cięciem) — karta wpisana
+   w kontener, nie full-bleed band. Ten sam ciemny navy akcent co reszta strony, ale jako
+   zamknięcie historii, nie osobny "rozdział". */
+.iab-about__stats { margin-top: var(--sp-8); background: var(--c-brand-deep); border-radius: var(--radius-xl); padding: clamp(28px, 4vw, 48px); display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-5); }
+.iab-about__stats .iab-counter { position: relative; text-align: center; }
+.iab-about__stats .iab-counter:not(:last-child)::after { content: ""; position: absolute; right: calc(-1 * var(--sp-5) / 2); top: 6px; bottom: 6px; width: 1px; background: rgba(255,255,255,.18); }
+.iab-about__stats .iab-counter__num { color: var(--c-on-brand); }
+.iab-about__stats .iab-counter__label { color: rgba(255,255,255,.65); }
+@media (max-width: 720px) {
+	.iab-about__stats { grid-template-columns: repeat(2, 1fr); gap: var(--sp-6) var(--sp-4); }
+	.iab-about__stats .iab-counter:nth-child(2)::after { display: none; }
+}
+@media (max-width: 560px) { .iab-why__item { grid-template-columns: 36px 1fr; gap: var(--sp-3); } .iab-why__item::before { font-size: 1.2rem; } }
+
+/* ── Proces — liczby serif + hairline z węzłem-kropką (NIE numerowane kółka na
+   kolorze marki — dokładnie anti-pattern "ikona-w-kółku jako substytut ilustracji"
+   z senior-ui-craft). Rebuild 2026-09-13. ── */
+/* 2026-09-14 przebudowa od zera (poprzednie 2 podejścia z linią per-krok miały fragile
+   magic-number matematykę, która się rozjeżdżała — "kreski krzywe" user 2026-09-14).
+   Nowa konstrukcja: JEDNA linia na całą szerokość siatki, POD numerami (z-index niżej),
+   a każdy numer ma symetryczne padding+ujemny margin = maskuje linię z obu stron bez
+   przesuwania własnej pozycji. Odporne na różną szerokość glifów cyfr (1 vs 4), bo linia
+   nie jest liczona per-numer tylko jest jedną prostą od lewej do prawej krawędzi siatki.
+   Kroki wyśrodkowane (numer/nagłówek/tekst na wspólnej osi) — "wycentruj te kroki". */
+.iab-process { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-6); position: relative; }
+.iab-process::before {
+	content: ""; position: absolute; left: 0; right: 0; top: 0.95rem; height: 1px;
+	background: var(--c-line); z-index: 0;
+}
+.iab-process__step { text-align: center; position: relative; z-index: 1; }
+.iab-process__num {
+	display: block; position: relative; z-index: 1;
+	font-family: var(--font-display); font-weight: 400; font-size: 1.9rem; line-height: 1;
+	color: var(--c-accent); background: var(--c-bg);
+	width: fit-content; margin-inline: auto;
+	padding-inline: var(--sp-3);
+}
+.iab-process__step h3 { margin: 0 0 var(--sp-1); font-size: var(--text-base); }
+.iab-process__step p { color: var(--c-ink-soft); font-size: var(--text-sm); max-width: 26ch; margin-inline: auto; }
+@media (max-width: 860px) {
+	/* Mobile: pionowy stepper, numer po lewej, tekst wcięty — inny, celowo NIE
+	   wyśrodkowany układ (standard dla pionowej listy kroków). Pozioma linia z base
+	   znika, wraca własna pionowa linia per segment. */
+	.iab-process { grid-template-columns: 1fr; gap: 0; }
+	.iab-process::before { display: none; }
+	.iab-process__step { text-align: left; padding: var(--sp-5) 0 var(--sp-5) var(--sp-8); }
+	.iab-process__step:first-child { padding-top: 0; }
+	.iab-process__step:not(:last-child)::before {
+		content: ""; position: absolute; top: auto; bottom: calc(-1 * var(--sp-5)); left: 1.15rem; right: auto;
+		width: 1px; height: var(--sp-5); background: var(--c-line);
+	}
+	.iab-process__num { position: absolute; top: var(--sp-5); left: 0; margin-inline: 0; padding: 0 var(--sp-2) 0 0; }
+	.iab-process__step:first-child .iab-process__num { top: 0; }
+	.iab-process__step p { margin-inline: 0; }
+}
+
+/* ── Liczniki: pas ciemniejszy niż strona, hairline między kolumnami zamiast boxów ── */
+.iab-counters-band { background: var(--c-brand-deep); border-top: 1px solid var(--c-line); border-bottom: 1px solid var(--c-line); border-radius: 0; margin-inline: 0; padding-block: var(--sp-8); }
+/* --c-ink/--c-ink-soft to prawie-czerń dobrana pod jasne tło — na var(--c-brand-deep)
+   (ciemny navy) liczby i etykiety były praktycznie nieczytelne (ciemne-na-ciemnym). */
+.iab-counters-band .iab-counter__num { color: var(--c-on-brand); font-size: clamp(2.4rem, 3vw, 3.4rem); }
+.iab-counters-band .iab-counter__label { color: rgba(255,255,255,.65); }
+.iab-counters-band .iab-counters .iab-counter:not(:last-child)::after { background: rgba(255,255,255,.2); }
+.iab-counters .iab-counter { position: relative; text-align: center; }
+.iab-counters .iab-counter:not(:last-child)::after { content: ""; position: absolute; right: calc(-1 * var(--sp-5)); top: 8px; bottom: 8px; width: 1px; background: var(--c-line); }
+.iab-counter { text-align: center; }
+.iab-counter__num { display: block; font-family: var(--font-display); font-weight: 400; font-size: var(--text-xl); color: var(--c-accent); letter-spacing: var(--ls-tight); font-variant-numeric: tabular-nums; }
+.iab-counter__label { color: var(--c-muted); font-size: var(--text-sm); margin-top: var(--sp-1); }
+@media (max-width: 720px) {
+	.iab-counters-band { padding-block: var(--sp-6); }
+	.iab-counters { grid-template-columns: repeat(2, 1fr); gap: var(--sp-6) var(--sp-4); }
+	.iab-counters .iab-counter:nth-child(2)::after { display: none; }
+}
+
+/* ── Opinie (cytaty z avatarem) ── */
+.iab-review { background: var(--c-card); border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: var(--sp-5); box-shadow: var(--shadow-card); }
+.iab-review__stars { display: flex; gap: 2px; color: #f5a623; margin-bottom: var(--sp-3); }
+.iab-review blockquote { font-size: var(--text-base); color: var(--c-ink); }
+.iab-review__author { display: flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-4); font-weight: var(--fw-semibold); font-size: var(--text-sm); }
+.iab-review__avatar { display: inline-flex; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: var(--radius-pill); background: var(--c-brand-soft); color: var(--c-brand-ink); font-family: var(--font-display); }
+
+/* ── Zaufanie (uczciwy fallback bez fabrykowanych opinii) — edytorialna wypowiedź,
+   NIE boxed-card z checkmarkami (dokładnie wzorzec "stworzone przez bota" z
+   feedbacku 2026-09-13: karta+border+ikony-jako-bullet = generic testimonial-shaped
+   filler mimo że to nie jest prawdziwa opinia). Duże serif zdanie jak cytat,
+   sygnały jako cichy wiersz oddzielony hairline-kropkami, zero ramki/tła/ikon. ── */
+.iab-trust { max-width: 760px; margin: 0 auto; text-align: center; }
+.iab-trust__lead {
+	font-family: var(--font-display); font-weight: 400; font-style: italic;
+	font-size: clamp(1.4rem, 1.6vw + 1rem, 2rem); line-height: 1.35;
+	color: var(--c-ink); margin: 0 auto var(--sp-6); max-width: 34ch;
+}
+.iab-trust__signals { list-style: none; display: flex; flex-wrap: wrap; gap: var(--sp-3) 0; justify-content: center; margin: 0 0 var(--sp-6); padding: 0; }
+.iab-trust__signals li { display: inline-flex; align-items: center; font-weight: var(--fw-medium); font-size: var(--text-sm); color: var(--c-ink-soft); }
+.iab-trust__signals li:not(:last-child)::after { content: "·"; color: var(--c-accent); margin: 0 var(--sp-4); font-size: 1.2em; }
+.iab-trust__signals li .iab-ico, .iab-trust__signals li svg { display: none; } /* zero ikon jako bullet — czysty tekst rozdzielony hairline-kropką */
+/* Na wąskim ekranie każdy <li> i tak łamie się do własnej linii (za długi tekst na 2 w
+   rzędzie) — kropka-separator z ::after zostawała osierocona tuż przy zawiniętym tekście
+   zamiast być MIĘDZY elementami. Przy stackowaniu: kropki znikają, odstęp robi gap. */
+@media (max-width: 640px) {
+	.iab-trust__signals { flex-direction: column; align-items: center; gap: var(--sp-3); text-align: center; }
+	.iab-trust__signals li:not(:last-child)::after { content: none; }
+}
+
+/* ── FAQ / accordion ── */
+/* 2 kolumny na desktopie — jedna wąska (760px) kolumna z 4-6 pytaniami zostawiała
+   ogromny pusty margines po bokach na szerokim ekranie (feedback 2026-09-13). */
+.iab-accordion--2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--sp-6); align-content: start; }
+.iab-accordion__item { border: 1px solid var(--c-line); border-radius: var(--radius-md); margin-bottom: var(--sp-3); overflow: hidden; background: var(--c-card); align-self: start; }
+@media (max-width: 860px) { .iab-accordion--2col { grid-template-columns: 1fr; } }
+.iab-accordion__head { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); padding: var(--sp-4) var(--sp-5); background: none; border: 0; cursor: pointer; text-align: left; font-family: var(--font-display); font-weight: 400; font-size: var(--text-base); color: var(--c-ink); }
+.iab-accordion__head .iab-ico { transition: transform var(--dur-base) var(--ease); flex: 0 0 auto; }
+.iab-accordion__head[aria-expanded="true"] .iab-ico { transform: rotate(90deg); }
+.iab-accordion__panel { padding: 0 var(--sp-5) var(--sp-5); color: var(--c-ink-soft); }
+
+/* ── CTA band ── */
+/* CTA band — full-bleed (edge-to-edge, NIE pływająca zaokrąglona karta z gradientem —
+   dokładnie "brzydka" wg feedbacku 2026-09-13), solid navy, zero opacity na tekście
+   (anti-slop: przezroczysty tekst = zakazane, zawsze solid kolor). */
+.iab-cta-band { background: var(--c-brand-deep); padding-block: var(--sp-8); }
+.iab-cta-band__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-6); }
+.iab-cta-band h2 { color: #fff; font-size: var(--text-xl); }
+.iab-cta-band__action { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-5); }
+.iab-cta-band__phone { display: inline-flex; align-items: center; gap: var(--sp-3); font-family: var(--font-display); font-size: var(--text-lg); color: #fff; border-bottom: 1.5px solid color-mix(in srgb, #fff 35%, transparent); padding-bottom: 4px; transition: border-color var(--dur-base) var(--ease); }
+.iab-cta-band__phone:hover { border-color: #fff; color: #fff; }
+.iab-cta-band .iab-btn--secondary { color: #fff; border-color: color-mix(in srgb, #fff 45%, transparent); }
+.iab-cta-band .iab-btn--secondary:hover { background: color-mix(in srgb, #fff 12%, transparent); border-color: #fff; color: #fff; }
+@media (max-width: 720px) { .iab-cta-band__inner { flex-direction: column; align-items: flex-start; } }
+
+/* ── Zespół — grid ── */
+.iab-member { text-align: center; }
+.iab-member__photo { aspect-ratio: 1; border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--c-brand-soft), var(--c-bg-alt)); margin-bottom: var(--sp-3); }
+.iab-member h3 { margin-bottom: 2px; }
+.iab-member p { color: var(--c-muted); font-size: var(--text-sm); }
+/* ── Solo ekspert ── */
+.iab-expert { display: flex; gap: var(--sp-8); align-items: center; }
+.iab-expert__photo { flex: 0 0 200px; aspect-ratio: 1; border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--c-brand-soft), var(--c-bg-alt)); }
+.iab-expert__body h2 { margin: var(--sp-2) 0 var(--sp-3); }
+.iab-expert__bio { color: var(--c-ink-soft); font-size: var(--text-base); max-width: 56ch; }
+@media (max-width: 640px) {
+  .iab-expert { flex-direction: column; }
+  .iab-expert__photo { flex: 0 0 auto; width: 140px; align-self: center; }
+}
+
+/* ── Finalny blok home: FAQ + CTA + Kontakt jako jedna sekcja ──
+   (feedback: FAQ miała być połączona z CTA — user 2026-09-14: "faq daj do jednej
+   kolumny i w drugiej daj cta" — dwie kolumny obok siebie, nie karta pod spodem). */
+.iab-final > .iab-container + .iab-container { margin-top: var(--sp-8); }
+.iab-faqcta { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--sp-7); align-items: stretch; }
+@media (max-width: 900px) { .iab-faqcta { grid-template-columns: 1fr; } }
+
+/* Runda 16(10) — Über uns: user chciał dokładnie "3/5 + 2/5" zamiast home'owego
+   1.3fr/1fr — skopowane lokalnie (nie zmienia strony głównej, o którą nikt nie
+   prosił w tej rundzie). */
+.iab-onas-faqcta .iab-faqcta { grid-template-columns: 1.5fr 1fr; }
+@media (max-width: 900px) { .iab-onas-faqcta .iab-faqcta { grid-template-columns: 1fr; } }
+
+.iab-final__cta { background: var(--c-brand-deep); border-radius: var(--radius-xl); padding: clamp(28px, 4vw, 44px) clamp(28px, 4vw, 48px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-6); }
+.iab-final__cta h3 { color: #fff; font-size: var(--text-lg); margin: 0 0 var(--sp-2); }
+.iab-final__phone { display: inline-flex; align-items: center; gap: var(--sp-3); font-family: var(--font-display); font-size: var(--text-base); color: #fff; border-bottom: 1.5px solid color-mix(in srgb, #fff 35%, transparent); padding-bottom: 2px; transition: border-color var(--dur-base) var(--ease); }
+.iab-final__phone:hover { border-color: #fff; }
+.iab-final .iab-btn--secondary { color: #fff; border-color: color-mix(in srgb, #fff 45%, transparent); }
+.iab-final .iab-btn--secondary:hover { background: color-mix(in srgb, #fff 12%, transparent); border-color: #fff; color: #fff; }
+@media (max-width: 720px) { .iab-final__cta { flex-direction: column; align-items: flex-start; } }
+
+/* Wariant "tall" — kolumna obok listy FAQ: pełna wysokość kolumny, nagłówek u góry,
+   przycisk docięty do dołu (ta sama wysokość co lista pytań obok). */
+.iab-final__cta--tall { flex-direction: column; align-items: flex-start; justify-content: space-between; height: 100%; }
+.iab-final__cta--tall p { color: rgba(255,255,255,.75); font-size: var(--text-sm); margin: 0 0 var(--sp-5); max-width: 34ch; }
+.iab-final__cta--tall .iab-btn--secondary { align-self: flex-start; margin-top: var(--sp-6); }
+
+/* ── Kontakt ── */
+.iab-contact.iab-split { grid-template-columns: 1fr 1fr; align-items: stretch; }
+.iab-contact__info { display: flex; flex-direction: column; }
+.iab-contact__list { list-style: none; display: flex; flex-direction: column; gap: var(--sp-3); }
+.iab-contact__list li { display: flex; align-items: center; gap: var(--sp-3); }
+.iab-contact__list .iab-ico { color: var(--c-brand-ink); flex: 0 0 auto; }
+.iab-hours { line-height: 1.45; }
+.iab-contact__map { margin-top: var(--sp-5); border-radius: var(--radius-lg); overflow: hidden; }
+.iab-contact__map iframe { width: 100%; min-height: 280px; border: 0; display: block; }
+/* Bez konfigurowanej mapy lista kontaktowa (4 pozycje) była dużo krótsza niż formularz
+   obok -> pusta przestrzeń pod danymi. Zamiast placeholdera dokładamy realną treść
+   konwersyjną (sygnatura hairline+numeracja, jak .iab-why) + powtórzone CTA telefonu,
+   docięte do dołu karty tak jak przycisk „Senden" w formularzu obok. */
+.iab-contact__trust { list-style: none; margin-top: var(--sp-6); padding-top: var(--sp-5); border-top: 1px solid var(--c-line); display: flex; flex-direction: column; gap: var(--sp-4); }
+.iab-contact__trust li { display: grid; grid-template-columns: 34px 1fr; gap: var(--sp-3); align-items: baseline; }
+.iab-contact__trust-num { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; color: var(--c-accent); }
+.iab-contact__trust p { font-size: var(--text-sm); color: var(--c-ink-soft); margin: 0; }
+.iab-contact__call { margin-top: var(--sp-6); align-self: flex-start; }
+@media (max-width: 1024px) { .iab-contact.iab-split { grid-template-columns: 1fr; } }
+
+/* ── Podstrona usługi v3 (REDESIGN 2026-09-14, druga runda) — jedna wyśrodkowana
+   wąska kolumna zamiast gęstego 2-kolumnowego układu z sidebarem. Duże odstępy
+   pionowe między blokami = "duzo wolnej przestrzeni" (user). Ablauf/Realisierungen
+   zostają na pełną szerokość (zaakceptowane w poprzedniej rundzie). ── */
+.iab-usluga-col { padding-block: var(--sp-9); }
+
+/* REDESIGN 2026-09-14 (trzecia runda) — user: "widzę przebudowę, ale wizualnie nic
+   nie zmieniłeś, krążysz wokół tego samego, chcę NOWY design". Poprzednie rundy
+   zmieniały tylko układ/wyrównanie w TYM SAMYM jasnym, płaskim rejestrze kolorów —
+   z perspektywy usera to faktycznie nie jest "nowy design". Ta runda wprowadza
+   realną zmianę wizualną: naprzemienny rytm jasno/ciemno (ciemny pasek obietnicy
+   tuż pod hero, ciemna sekcja oferty) i edytorialny układ 2-kolumnowy dla Vorteile
+   zamiast jednej listy pod nagłówkiem — nie tylko przestawianie tych samych
+   bloków w tej samej palecie. --c-brand-deep już istnieje w tokens.css jako
+   "dark sekcje (CTA/stopka)" — świadomie reużyty tu, nie nowy kolor z powietrza. */
+
+/* Runda 12 — dawny ciemny pasek "obietnicy" USUNIĘTY (zastąpiony przez
+   .iab-usluga-facts wtopiony w sekcję intro, patrz niżej). Zero osobnego
+   pełnoszerokościowego "rozdziału" dla trzech faktów zaufania. */
+.iab-usluga-facts { list-style: none; display: flex; flex-wrap: wrap; gap: var(--sp-2) 0; margin: var(--sp-5) 0 0; padding-top: var(--sp-4); border-top: 1px solid var(--c-line); }
+.iab-usluga-facts li { font-size: var(--text-sm); color: var(--c-ink-soft); font-weight: var(--fw-medium); }
+.iab-usluga-facts li:not(:last-child)::after { content: "·"; color: var(--c-accent); margin: 0 var(--sp-3); font-weight: 400; }
+.iab-usluga-facts__price { color: var(--c-brand-ink) !important; font-family: var(--font-display); }
+.iab-usluga-facts__price span { font-family: var(--font-body); font-weight: var(--fw-regular); color: var(--c-muted); }
+@media (max-width: 560px) {
+	.iab-usluga-facts { flex-direction: column; align-items: flex-start; gap: var(--sp-2); }
+	.iab-usluga-facts li:not(:last-child)::after { content: none; }
+}
+
+/* REDESIGN 2026-09-14 (szósta runda) — user: "daj formularz na dol i przyciski
+   linkujace do niego wyzej" — sticky sidebar (czwarta runda) USUNIĘTY, formularz
+   wraca jako duża, samodzielna sekcja "Angebot anfordern" na końcu strony (jak w
+   drugiej/trzeciej rundzie, ale teraz jest to JEDYNE miejsce z formularzem — bez
+   duplikatu w sidebarze). Przyciski wyżej na stronie (hero, każda karta cennika)
+   linkują do niej kotwicą #angebot — patrz `.iab-usluga-offer` niżej. Treść wraca
+   do jednej kolumny (`.iab-usluga-col`, już istniejący kontener z drugiej rundy). */
+.iab-usluga-col > * + * { margin-top: var(--sp-8); }
+
+/* Sekcja wstępna zaraz pod hero (dziewiąta runda — user: "gdzie jest sekcja pod hero
+   wstepna z tym co napisalem") — WŁASNA sekcja z tytułem (_iab_intro_heading, realny
+   oryginalny nagłówek z markdown źródła, nie proza bez tytułu). */
+.iab-usluga-intro { padding-block: var(--sp-8); display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 320px); gap: var(--sp-8); align-items: center; }
+.iab-usluga-intro h2 { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 400; margin: var(--sp-2) 0 var(--sp-4); }
+.iab-usluga-intro .iab-usluga-editorial__body p { margin-bottom: 0; }
+.iab-usluga-intro__media { display: block; width: 100%; height: 100%; min-height: 220px; border-radius: var(--radius-lg); background-size: cover; background-position: center; }
+body.single-usluga .iab-usluga-intro__media { filter: grayscale(.88) contrast(1.08) brightness(.97); }
+/* Runda 13 — echte CTA am Ende der Intro-Sektion statt reinem Fließtext. */
+.iab-usluga-intro__cta { display: inline-flex; margin-top: var(--sp-6); }
+@media (max-width: 780px) {
+	.iab-usluga-intro { grid-template-columns: 1fr; }
+	.iab-usluga-intro__media { order: -1; aspect-ratio: 16/9; min-height: 0; }
+}
+
+/* the_content() usługi rozbite na osobne sekcje edytorialne (inc/helpers.php,
+   iab_usluga_content_sections()) zamiast jednego bloku tekstu — user: "to co jest
+   ponizej po krokach to jest tak bez sensu, ze glowa mala masa wolnej przestrzeni i
+   blok tekstu". */
+.iab-usluga-editorial__block + .iab-usluga-editorial__block { border-top: 1px solid var(--c-line); padding-top: var(--sp-8); }
+.iab-usluga-editorial__block h2 { font-size: var(--text-xl); margin: 0 0 var(--sp-4); }
+.iab-usluga-editorial__body p { color: var(--c-ink-soft); line-height: 1.7; margin: 0 0 var(--sp-4); }
+.iab-usluga-editorial__body p:last-child { margin-bottom: 0; }
+.iab-usluga-editorial__body h3 { font-family: var(--font-display); font-size: var(--text-base); font-weight: 600; margin: 0 0 var(--sp-3); color: var(--c-ink); }
+.iab-usluga-editorial__body ul { list-style: none; margin: 0 0 var(--sp-5); padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.iab-usluga-editorial__body li { position: relative; padding-left: var(--sp-5); font-size: var(--text-sm); color: var(--c-ink-soft); line-height: 1.5; }
+.iab-usluga-editorial__body li::before { content: ""; position: absolute; left: 2px; top: .6em; width: 5px; height: 5px; border-radius: 50%; background: var(--c-brand); }
+.iab-usluga-editorial__body blockquote { margin: var(--sp-5) 0 0; padding: var(--sp-4) var(--sp-5); border-left: 3px solid var(--c-brand); background: var(--c-bg-alt); font-size: var(--text-sm); color: var(--c-ink-soft); }
+.iab-usluga-editorial__body blockquote p { margin: 0; }
+/* REDESIGN 2026-09-14 (piąta runda) — user: "caly czas kopiujesz html ten sam blok
+   tekstu zamiast to porozbijac i zrobic ladne wizualnie sekcje". Leistungen/Für-wen/
+   Preise przestają być stylowaną prozą (multi-column tekstu to nadal tekst) — teraz to
+   realne komponenty (karty/panele) z wyciągniętej struktury (inc/helpers.php,
+   iab_usluga_split_by_h3() / iab_usluga_parse_price_table()). Fallback na zwykłą prozę
+   (.iab-usluga-editorial__body bez modyfikatora) zostaje na wypadek treści bez H3/tabeli.
+
+   Runda 12 — Leistungen-Karten (.iab-usluga-svc-cards) ENTFERNT. Runda 15 — cała
+   sekcja Leistungsumfang/Vorteile/Für-wen-geeignet USUNIĘTA z single-usluga.php
+   (user chciał mniej sekcji, nie inny kontener na tę samą treść) — komponenty
+   .iab-usluga-scope/.iab-usluga-perks/.iab-usluga-duo/.iab-usluga-fitwrap, które
+   tu kiedyś były, skasowane jako martwy CSS razem z tym PHP. */
+
+/* REDESIGN 2026-09-14 (siódma runda) — user: "nie chce blokow tekstu bez zdjec" +
+   "usun sekcje z pakietami" + "faq polacz z sekcja formularza". Preise (karty cenowe)
+   USUNIĘTE z wyświetlania — ceny i tak wszędzie "Auf Anfrage", karty nie niosły treści.
+   W zamian: prawdziwe zdjęcia WEWNĄTRZ sekcji tekstowych (Vorteile, Das Problem), nie
+   tylko w hero/galerii/Andere Leistungen — poprzednie rundy zmieniały POJEMNIK tekstu
+   (kolumny→karty→panele), nigdy nie wstawiały fizycznie zdjęcia do środka. */
+
+/* Das Problem — split tekst+zdjęcie, jedyna sekcja edytorialna z realnym obrazem obok
+   akapitów (nie tylko karty/panele). */
+.iab-usluga-problem { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 340px); gap: var(--sp-8); align-items: center; }
+.iab-usluga-problem__media { display: block; width: 100%; height: 100%; min-height: 260px; border-radius: var(--radius-lg); background-size: cover; background-position: center; }
+body.single-usluga .iab-usluga-problem__media { filter: grayscale(.88) contrast(1.08) brightness(.97); }
+@media (max-width: 780px) {
+	.iab-usluga-problem { grid-template-columns: 1fr; }
+	.iab-usluga-problem__media { order: -1; aspect-ratio: 16/9; min-height: 0; }
+}
+
+/* Duotone (grayscale + navy-tint) na wszystkich zdjęciach TEJ strony — jedyny szablon
+   w motywie z takim traktowaniem foto (editorial/katalogowy nastrój), celowo odmienny
+   od pełnokolorowego stocku reszty strony (user: "chce nowy design", "wizualnie inny
+   motyw" — nie tylko inny układ w tej samej palecie). Scoped `body.single-usluga`,
+   żeby NIE dotknąć blog.css na wpisach bloga (ten sam komponent .iab-art-hero). */
+body.single-usluga .iab-art-hero__media,
+body.single-usluga .iab-usluga-gallery__item img,
+body.single-usluga .iab-lightbox__img { filter: grayscale(.88) contrast(1.08) brightness(.97); }
+
+/* Lightbox realizacji (jedenasta runda) — przybliżenie zdjęcia w miejscu + karuzela
+   strzałkami, NIE nawigacja na inną podstronę (galeria to same zdjęcia, ósma runda). */
+/* [hidden] MUSI wygrać z .iab-lightbox{display:flex} — selektor klasy i atrybutowy mają tę
+   samą specyficzność (0,1,0), więc bez tej reguły `el.hidden = true` nie chowa elementu
+   wizualnie (tylko semantycznie/dla AT) — realny bug znaleziony przy weryfikacji mobile. */
+.iab-lightbox[hidden] { display: none; }
+.iab-lightbox { position: fixed; inset: 0; z-index: var(--z-toast); background: rgba(5,13,20,.94); display: flex; align-items: center; justify-content: center; padding: var(--sp-6); }
+.iab-lightbox__img { max-width: 88vw; max-height: 82vh; object-fit: contain; border-radius: var(--radius-md); box-shadow: 0 24px 64px rgba(0,0,0,.5); }
+.iab-lightbox__close, .iab-lightbox__nav { position: absolute; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.12); color: #fff; border: 0; cursor: pointer; transition: background var(--dur-fast) var(--ease); }
+.iab-lightbox__close:hover, .iab-lightbox__nav:hover { background: rgba(255,255,255,.24); }
+.iab-lightbox__close { top: var(--sp-5); right: var(--sp-5); width: 44px; height: 44px; font-size: 26px; line-height: 1; }
+.iab-lightbox__nav { top: 50%; transform: translateY(-50%); width: 52px; height: 52px; font-size: 30px; line-height: 1; }
+.iab-lightbox__nav--prev { left: var(--sp-5); }
+.iab-lightbox__nav--next { right: var(--sp-5); }
+.iab-lightbox__counter { position: absolute; bottom: var(--sp-5); left: 50%; transform: translateX(-50%); color: color-mix(in srgb, #fff 75%, transparent); font-size: var(--text-sm); }
+body.iab-lightbox-open { overflow: hidden; }
+body.iab-lightbox-open .iab-fab { display: none; } /* lightbox jest ponad wszystkim innym na stronie */
+@media (max-width: 640px) {
+	.iab-lightbox__nav { width: 40px; height: 40px; font-size: 22px; }
+	.iab-lightbox__nav--prev { left: var(--sp-3); }
+	.iab-lightbox__nav--next { right: var(--sp-3); }
+	.iab-lightbox__close { width: 36px; height: 36px; font-size: 20px; top: var(--sp-3); right: var(--sp-3); }
+}
+
+/* Sekcja "Angebot anfordern" — jedyne miejsce z formularzem na stronie (szósta runda),
+   wyraźnie ciemny, wyśrodkowany finał wobec jasnej, flush-left reszty strony. Hero-CTA
+   i każda karta cennika (#angebot) prowadzą właśnie tutaj. */
+.iab-usluga-offer { background: var(--c-brand-deep); padding-block: var(--sp-9); }
+/* FAQ+formularz OBOK SIEBIE (nie jedno pod drugim, ósma runda) — lewa kolumna: intro +
+   FAQ, prawa: karta formularza na całą wysokość obu. */
+.iab-usluga-offer__inner { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); gap: var(--sp-9); align-items: start; }
+.iab-usluga-offer__left > * + * { margin-top: var(--sp-8); }
+.iab-usluga-offer__head .iab-eyebrow { color: color-mix(in srgb, #fff 78%, var(--c-brand-deep)); }
+.iab-usluga-offer__head h2 { color: #fff; font-size: var(--text-xl); max-width: 22ch; }
+.iab-usluga-offer__head p { color: color-mix(in srgb, #fff 74%, var(--c-brand-deep)); margin-top: var(--sp-3); max-width: 42ch; }
+.iab-usluga-offer__card { padding: clamp(1.5rem, 3vw, var(--sp-7)); box-shadow: 0 24px 64px rgba(3,10,18,.35); }
+/* Dziewiąta runda — user: "usun te punkty ... zrob ladniejszy formularz bardziej
+   rozbudowany" — trust-lista pod nagłówkiem USUNIĘTA (dubluje pasek obietnicy pod
+   hero); w zamian karta formularza ma własny mały nagłówek z ikoną, nie sam formularz
+   "z zimna" w białej karcie. */
+@media (max-width: 900px) { .iab-usluga-offer__inner { grid-template-columns: 1fr; } }
+
+/* FAQ POŁĄCZONE z sekcją formularza (siódma runda, user: "faq polacz z sekcja
+   formularza") — jedna dark sekcja zamiast dwóch osobnych. Akordeon = białe karty
+   (`.iab-accordion__item`, niezmienione) pływające na ciemnym tle, ten sam wzorzec co
+   karta formularza obok. */
+.iab-usluga-offer__faq-label { display: block; font-family: var(--font-display); font-size: var(--text-lg); color: #fff; margin-bottom: var(--sp-4); }
+
+/* Ósma runda — user: "ikonki telefonu dalej nie widze prawy dolny rog" — .iab-fab jest
+   sitewide mobile-only (assets/css/components.css, display:none poza ≤720px). Na
+   podstronie usługi (wysoka intencja komercyjna) ma być widoczny TEŻ na desktopie —
+   ≤1024px nadal przejmuje go .iab-mobar (reguła niżej), ale ≥1024px .iab-fab wraca. */
+.single-usluga .iab-fab { display: flex; }
+@media (max-width: 1024px) {
+	.single-usluga .iab-fab { display: none; } /* .iab-mobar przejmuje rolę pływającego telefonu */
+	body:has(.iab-mobar) { padding-bottom: 84px; } /* miejsce na fixed dolny pasek, żeby nie zasłaniał stopki/CTA */
+}
+
+/* Galerie realizacji na podstronie usługi — dopasowane do tej usługi po tax slug. */
+.iab-usluga-gallery__note { color: var(--c-muted); font-size: var(--text-sm); margin: var(--sp-2) 0 0; }
+.iab-usluga-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-4); margin-top: var(--sp-5); }
+/* <button> (jedenasta runda: klik = lightbox) — reset user-agent stylów przycisku, żeby
+   wyglądał identycznie jak wcześniejszy <figure>. */
+.iab-usluga-gallery__item { display: block; width: 100%; margin: 0; padding: 0; border: 0; background: none; font: inherit; border-radius: var(--radius-lg); overflow: hidden; position: relative; aspect-ratio: 4/3; cursor: zoom-in; }
+.iab-usluga-gallery__item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.iab-usluga-gallery__item::after {
+	content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity var(--dur-base) var(--ease);
+	background: rgba(5,13,20,.25) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff' width='28' height='28'%3E%3Cpath d='M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 5L20.5 19l-5-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z'/%3E%3Cpath d='M9 7h1v2h2v1h-2v2H9v-2H7V9h2z'/%3E%3C/svg%3E") no-repeat center / 28px;
+}
+.iab-usluga-gallery__item:hover::after, .iab-usluga-gallery__item:focus-visible::after { opacity: 1; }
+@media (max-width: 560px) { .iab-usluga-gallery { grid-template-columns: 1fr; } }
+/* Wariant w pełnoszerokiej sekcji "Realisierungen" (nie w wąskiej kolumnie treści) —
+   więcej miejsca, większe kafelki, 3 w rzędzie. */
+.iab-usluga-gallery--wide { grid-template-columns: repeat(3, 1fr); }
+.iab-usluga-gallery--wide .iab-usluga-gallery__item { aspect-ratio: 3/2.4; }
+@media (max-width: 860px) { .iab-usluga-gallery--wide { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .iab-usluga-gallery--wide { grid-template-columns: 1fr; } }
+
+/* ── Cennik ── */
+.iab-price-card { text-align: center; position: relative; display: flex; flex-direction: column; }
+.iab-price-card__amount { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 400; color: var(--c-brand-ink); margin: var(--sp-2) 0 var(--sp-3); }
+.iab-price-card__desc { color: var(--c-muted); font-size: var(--text-sm); margin-bottom: var(--sp-4); }
+.iab-price-card__features { list-style: none; text-align: left; display: flex; flex-direction: column; gap: var(--sp-2); margin: 0 0 var(--sp-5); padding: 0; }
+.iab-price-card__features li { display: flex; align-items: flex-start; gap: var(--sp-2); font-size: var(--text-sm); color: var(--c-ink); }
+.iab-price-card__features li svg, .iab-price-card__features li .iab-ico { color: var(--c-brand-ink); flex: 0 0 auto; margin-top: 3px; }
+.iab-price-card__features li span { flex: 1; }
+.iab-price-card .iab-btn { margin-top: auto; }
+.iab-price-card__badge { position: absolute; top: calc(-1 * var(--sp-3)); left: 50%; transform: translateX(-50%); background: var(--c-brand); color: var(--c-on-brand); font-family: var(--font-display); font-weight: 400; font-size: var(--text-xs); padding: 4px 14px; border-radius: var(--radius-pill); white-space: nowrap; }
+.iab-price-card--featured { border-color: var(--c-brand); box-shadow: var(--shadow-lift); }
+.iab-pricing-note { text-align: center; font-size: var(--text-sm); margin-top: var(--sp-5); }
+
+/* ── Filtr realizacji ── */
+.iab-filter { display: flex; flex-wrap: wrap; gap: var(--sp-2); justify-content: center; }
+.iab-filter__btn { padding: 8px 18px; border-radius: var(--radius-pill); border: 1.5px solid var(--c-line); font-size: var(--text-sm); font-weight: var(--fw-medium); color: var(--c-ink); }
+.iab-filter__btn:hover, .iab-filter__btn.is-active { background: var(--c-brand); border-color: var(--c-brand); color: var(--c-on-brand); }
+
+.iab-muted { color: var(--c-muted); }
+
+/* ── Podziękowanie (page-dziekujemy.php) ── */
+.iab-thankyou__badge { margin-bottom: var(--sp-3); }
+.iab-thankyou__lead { margin: var(--sp-4) auto 0; color: var(--c-muted); max-width: 48ch; }
+.iab-thankyou__cta { justify-content: center; margin-top: var(--sp-6); }
+
+/* ── Podtytuł strony usługi (single-usluga.php) ── */
+.iab-usluga-subtitle { font-size: var(--text-lg); color: var(--c-ink-soft); max-width: 56ch; margin-top: var(--sp-3); }

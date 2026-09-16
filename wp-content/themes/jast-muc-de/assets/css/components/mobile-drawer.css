@@ -1,0 +1,122 @@
+/**
+ * Mobilny drawer — premium slide-in (NASZ STANDARD, port z Magic Gym/Stalver).
+ * Panel z prawej + overlay; mechanizm `is-open` (assets/js/modules/mobile-drawer.js).
+ * Tokeny generyczne + color-mix → adaptuje light/dark przy re-skinie. z-index ponad bottom-bar/cookie.
+ */
+
+.iab-drawer { position: fixed; inset: 0; z-index: 1200; }
+.iab-drawer[hidden] { display: none; }
+
+.iab-drawer__overlay { position: absolute; inset: 0; background: rgba(8, 12, 10, .6); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); opacity: 0; transition: opacity .42s cubic-bezier(.32,.72,.24,1); }
+.iab-drawer.is-open .iab-drawer__overlay { opacity: 1; }
+
+.iab-drawer__panel { position: absolute; inset: 0; background: var(--c-bg, #fff); color: var(--c-ink, #1a1a1a); transform: translateX(100%); transition: transform .42s cubic-bezier(.32,.72,.24,1); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.iab-drawer.is-open .iab-drawer__panel { transform: translateX(0); }
+
+.iab-drawer__inner { display: flex; flex-direction: column; gap: 1.75rem; padding: 1rem 1.25rem 2.5rem; max-width: 520px; margin: 0 auto; min-height: 100vh; min-height: 100dvh; }
+
+/* Stagger reveal */
+.iab-drawer.is-open .iab-drawer__inner > * { animation: iab-drawer-in .5s cubic-bezier(.16,1,.3,1) backwards; }
+.iab-drawer.is-open .iab-drawer__inner > *:nth-child(1) { animation-delay: .06s; }
+.iab-drawer.is-open .iab-drawer__inner > *:nth-child(2) { animation-delay: .13s; }
+.iab-drawer.is-open .iab-drawer__inner > *:nth-child(3) { animation-delay: .2s; }
+.iab-drawer.is-open .iab-drawer__inner > *:nth-child(4) { animation-delay: .27s; }
+.iab-drawer.is-open .iab-drawer__inner > *:nth-child(5) { animation-delay: .34s; }
+.iab-drawer.is-open .iab-drawer__inner > *:nth-child(6) { animation-delay: .41s; }
+@keyframes iab-drawer-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Header */
+.iab-drawer__header { display: flex; align-items: center; justify-content: space-between; padding: .25rem 0 .5rem; }
+.iab-drawer__logo { display: inline-flex; align-items: center; line-height: 0; font-family: var(--font-display); font-size: 1.1rem; color: var(--c-ink); text-decoration: none; }
+.iab-drawer__logo img { display: block; height: 40px; width: auto; }
+.iab-drawer__close { width: 48px; height: 48px; border-radius: 50%; background: var(--c-accent); border: 0; color: var(--c-on-brand, #fff); cursor: pointer; display: grid; place-items: center; box-shadow: 0 6px 20px color-mix(in srgb, var(--c-accent) 32%, transparent); transition: transform .3s var(--ease), box-shadow .22s var(--ease); }
+.iab-drawer__close:hover, .iab-drawer__close:focus-visible { transform: rotate(90deg) scale(1.05); box-shadow: 0 10px 28px color-mix(in srgb, var(--c-accent) 50%, transparent); outline: none; }
+
+/* Sekcje + eyebrow z kreską */
+.iab-drawer__section { display: flex; flex-direction: column; gap: .5rem; }
+.iab-drawer__eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: var(--c-ink); padding: 0 4px; margin-bottom: 10px; line-height: 1.1; }
+.iab-drawer__eyebrow::before { content: ""; display: inline-block; width: 28px; height: 3px; background: var(--c-accent); border-radius: 2px; }
+
+/* Nav list (wp_nav_menu → karty + strzałka ::after) */
+.iab-drawer__list { display: flex; flex-direction: column; gap: 4px; list-style: none; padding: 0; margin: 0; }
+.iab-drawer__list li { margin: 0; }
+.iab-drawer__list a { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; font-family: var(--font-display); font-size: 1.16rem; font-weight: 600; color: var(--c-ink); text-decoration: none; border-radius: 12px; border: 1px solid transparent; background: color-mix(in srgb, var(--c-ink) 4%, transparent); transition: background .2s var(--ease), border-color .2s var(--ease), padding-left .2s var(--ease); }
+.iab-drawer__list a::after { content: "→"; color: var(--c-accent); opacity: .5; transition: transform .2s var(--ease), opacity .2s var(--ease); }
+.iab-drawer__list a:hover, .iab-drawer__list a:focus-visible { background: color-mix(in srgb, var(--c-accent) 12%, transparent); border-color: color-mix(in srgb, var(--c-accent) 45%, transparent); padding-left: 22px; outline: none; }
+.iab-drawer__list a:hover::after { opacity: 1; transform: translateX(4px); }
+
+/* Oferta chipy 2-kol */
+.iab-drawer__services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.iab-drawer__service { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 10px; background: color-mix(in srgb, var(--c-ink) 4%, transparent); border: 1px solid color-mix(in srgb, var(--c-ink) 10%, transparent); text-decoration: none; color: var(--c-muted, inherit); font-family: var(--font-display); font-size: .92rem; min-height: 48px; transition: background .2s var(--ease), border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease); }
+.iab-drawer__service:hover, .iab-drawer__service:focus-visible { background: color-mix(in srgb, var(--c-accent) 12%, transparent); border-color: color-mix(in srgb, var(--c-accent) 50%, transparent); color: var(--c-ink); transform: translateY(-1px); outline: none; }
+.iab-drawer__service-icon { display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 8px; background: var(--c-accent); color: var(--c-on-brand, #fff); }
+.iab-drawer__service-icon svg { width: 18px; height: 18px; }
+
+/* CTA */
+.iab-drawer__cta { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 17px 22px; width: 100%; border-radius: 14px; background: var(--c-accent); color: var(--c-on-brand, #fff); font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; text-decoration: none; box-shadow: 0 12px 30px color-mix(in srgb, var(--c-accent) 38%, transparent); transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+.iab-drawer__cta:hover, .iab-drawer__cta:focus-visible { transform: translateY(-2px); box-shadow: 0 18px 40px color-mix(in srgb, var(--c-accent) 50%, transparent); outline: none; }
+
+/* Kontakt karty */
+.iab-drawer__contact { display: flex; flex-direction: column; gap: 8px; padding-top: 1.25rem; border-top: 1px solid color-mix(in srgb, var(--c-ink) 10%, transparent); }
+.iab-drawer__contact-item { display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-radius: 12px; background: color-mix(in srgb, var(--c-ink) 4%, transparent); border: 1px solid color-mix(in srgb, var(--c-ink) 10%, transparent); color: var(--c-ink); text-decoration: none; transition: background .2s var(--ease), border-color .2s var(--ease); }
+.iab-drawer__contact-item:hover, .iab-drawer__contact-item:focus-visible { background: color-mix(in srgb, var(--c-ink) 8%, transparent); border-color: color-mix(in srgb, var(--c-accent) 45%, transparent); outline: none; }
+.iab-drawer__contact-item svg { flex-shrink: 0; color: var(--c-accent); }
+.iab-drawer__contact-label { font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: var(--c-muted); margin-bottom: 2px; }
+.iab-drawer__contact-value { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--c-ink); }
+
+/* Info */
+.iab-drawer__info { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border-radius: 12px; background: color-mix(in srgb, var(--c-ink) 4%, transparent); border: 1px solid color-mix(in srgb, var(--c-ink) 10%, transparent); }
+.iab-drawer__info-row { display: flex; align-items: flex-start; gap: 10px; font-size: .85rem; color: var(--c-muted); line-height: 1.45; }
+.iab-drawer__info-row svg { flex-shrink: 0; margin-top: 2px; color: var(--c-accent); opacity: .85; }
+
+/* Otwarty drawer zasłania bottom-bar/cookie (per reguła stackingu) */
+body.iab-drawer-open, body:has(.iab-drawer.is-open) { overflow: hidden; }
+.iab-drawer.is-open ~ .iab-mobar, body:has(.iab-drawer.is-open) .iab-mobar,
+body:has(.iab-drawer.is-open) .cky-btn-revisit-wrapper, body:has(.iab-drawer.is-open) .cky-revisit-bottom-left { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+	.iab-drawer__panel, .iab-drawer__overlay, .iab-drawer__inner > * { transition: opacity .2s ease !important; animation: none !important; }
+	.iab-drawer__panel { transform: none; opacity: 0; }
+	.iab-drawer.is-open .iab-drawer__panel { opacity: 1; }
+}
+
+/* ── Bottom sheet (mobilny modal formularza — user 2026-09-14: "wyjezdza formularz
+   z dolu, ma wygladac jak modal na Magic Gym na mobilce") — ten sam mechanizm co
+   .iab-drawer (data-drawer/is-open/hidden, patrz mobile-drawer.js), panel wjeżdża
+   z DOŁU zamiast z boku, zaokrąglone górne rogi jak natywny bottom-sheet. ── */
+.iab-sheet { position: fixed; inset: 0; z-index: 1200; }
+.iab-sheet[hidden] { display: none; }
+.iab-sheet__overlay { position: absolute; inset: 0; background: rgba(8, 12, 10, .55); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); opacity: 0; transition: opacity .38s cubic-bezier(.32,.72,.24,1); }
+.iab-sheet.is-open .iab-sheet__overlay { opacity: 1; }
+.iab-sheet__panel {
+	position: absolute; left: 0; right: 0; bottom: 0; max-height: 88vh;
+	background: var(--c-bg); border-radius: 22px 22px 0 0; box-shadow: 0 -18px 50px rgba(5,13,20,.28);
+	transform: translateY(100%); transition: transform .38s cubic-bezier(.32,.72,.24,1);
+	overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+.iab-sheet.is-open .iab-sheet__panel { transform: translateY(0); }
+.iab-sheet__grip { width: 40px; height: 4px; border-radius: 2px; background: var(--c-line); margin: 12px auto 0; }
+.iab-sheet__inner { padding: var(--sp-3) var(--sp-5) calc(var(--sp-6) + env(safe-area-inset-bottom)); }
+.iab-sheet__head { display: flex; align-items: center; justify-content: space-between; padding-block: var(--sp-3) var(--sp-4); }
+.iab-sheet__head h3 { font-size: var(--text-lg); margin: 0; }
+.iab-sheet__close { width: 36px; height: 36px; border-radius: 50%; background: var(--c-bg-alt); border: 0; display: grid; place-items: center; color: var(--c-ink-soft); cursor: pointer; }
+@media (prefers-reduced-motion: reduce) {
+	.iab-sheet__panel, .iab-sheet__overlay { transition: opacity .2s ease !important; }
+	.iab-sheet__panel { transform: none; opacity: 0; }
+	.iab-sheet.is-open .iab-sheet__panel { opacity: 1; }
+}
+
+/* ── Mobile action bar (.iab-mobar) — fixed bottom bar z CTA na podstronach usług,
+   zastępuje samą pływającą ikonkę telefonu (.iab-fab) bogatszym paskiem: telefon +
+   przycisk otwierający .iab-sheet z formularzem wyceny. Tylko <1024px. ── */
+.iab-mobar { display: none; }
+@media (max-width: 1024px) {
+	.iab-mobar {
+		display: flex; align-items: center; gap: var(--sp-3);
+		position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+		padding: var(--sp-3) var(--sp-4) calc(var(--sp-3) + env(safe-area-inset-bottom));
+		background: var(--c-bg); border-top: 1px solid var(--c-line); box-shadow: 0 -8px 24px rgba(5,13,20,.08);
+	}
+	.iab-mobar__call { flex: 0 0 auto; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--c-bg-alt); color: var(--c-brand-ink); border: 1px solid var(--c-line); }
+	.iab-mobar__cta { flex: 1 1 auto; }
+}

@@ -1,0 +1,66 @@
+/* ============================================================
+   EFFECTS — subtelne efekty/interakcje (klasy opt-in, używaj świadomie).
+   Wszystkie respektują prefers-reduced-motion.
+   ============================================================ */
+
+/* ── Gradient text (akcent w nagłówku/eyebrow) ── */
+.iab-gradient-text {
+	/* Akcent w nagłówku: ink→amber (czytelny na białym, spójny z marką — bez obcego błękitu). */
+	background: linear-gradient(90deg, var(--c-ink), var(--c-brand-ink) 70%);
+	-webkit-background-clip: text; background-clip: text;
+	-webkit-text-fill-color: transparent; color: transparent;
+}
+
+/* ── Tła dekoracyjne ── */
+.iab-dots { background-image: radial-gradient(var(--c-line) 1px, transparent 1px); background-size: 22px 22px; }
+.iab-mesh {
+	background:
+		radial-gradient(600px 300px at 85% -10%, var(--c-brand-soft), transparent 60%),
+		radial-gradient(500px 260px at 0% 110%, var(--c-brand-soft), transparent 60%);
+}
+
+/* ── Tilt (delikatne przechylenie karty — JS dolicza zmienne) ── */
+.iab-tilt { transform: perspective(800px) rotateX(var(--tiltX, 0)) rotateY(var(--tiltY, 0)); transition: transform var(--dur-base) var(--ease); transform-style: preserve-3d; }
+
+/* ── Parallax (JS przesuwa --py) ── */
+.iab-parallax { transform: translate3d(0, var(--py, 0), 0); will-change: transform; }
+
+/* ── Word-by-word reveal nagłówka (.iab-words) ── */
+.iab-js .iab-words .iab-word { display: inline-block; opacity: 0; transform: translateY(.5em); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+.iab-js .iab-words.is-visible .iab-word { opacity: 1; transform: none; }
+
+/* ── Shine na CTA (subtelny przesuw światła przy hover) ── */
+.iab-btn--primary { position: relative; overflow: hidden; }
+.iab-btn--primary::after {
+	content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.25) 50%, transparent 70%);
+	transform: translateX(-120%); transition: transform var(--dur-slow) var(--ease);
+}
+.iab-btn--primary:hover::after { transform: translateX(120%); }
+
+/* ── Latające kropki (głębia) — JS particles() wstrzykuje warstwę do [data-particles] ── */
+.iab-particles { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.iab-particles i { position: absolute; border-radius: 50%; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--c-accent) 55%, transparent), transparent 70%); animation-name: iab-float; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+@keyframes iab-float {
+	0%   { transform: translate3d(0,0,0) scale(.8); opacity: 0; }
+	12%  { opacity: .65; }
+	50%  { transform: translate3d(22px,-46px,0) scale(1.1); }
+	88%  { opacity: .5; }
+	100% { transform: translate3d(-12px,-92px,0) scale(.85); opacity: 0; }
+}
+
+/* ── Scroll-reveal generyczny (JS rise() dodaje .is-revealed przez IntersectionObserver na .iab-rise).
+   Base = sam fade-up. Sekcje które dodatkowo mają „nasuwać się" wizualnie na poprzednią
+   (zaokrąglona góra + cień + ew. ujemny margines) dokładają te właściwości lokalnie
+   przy swoim komponencie (np. hero+oferta w sections.css) — nie konfliktują z tym fade'em. ── */
+.iab-rise { opacity: 0; transform: translateY(24px); transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+.iab-rise.is-revealed { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+	.iab-marquee__track { animation: none; }
+	.iab-tilt { transform: none; }
+	.iab-parallax { transform: none; }
+	.iab-btn--primary::after { display: none; }
+	.iab-js .iab-words .iab-word { opacity: 1; transform: none; }
+	.iab-particles { display: none; }
+	.iab-reveal-up { opacity: 1; transform: none; }
+}

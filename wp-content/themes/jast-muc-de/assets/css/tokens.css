@@ -1,0 +1,121 @@
+/* ============================================================
+   TOKENS — system wizualny. JEDYNY plik do podmiany per klient.
+   Zmień tu kolory/fonty, a cała strona dopasuje się spójnie.
+   ============================================================ */
+:root {
+	/* ── KOLORY — JAST GmbH, JASNY kierunek (2026-09-13 v3, po feedbacku "ma być jasna
+	   strona jak przykład" — poprzednia dark-first runda odrzucona). Navy klienta
+	   (#07456f, zmierzony z żywej jast-muc.de) zostaje JEDYNYM akcentem — świadomie
+	   bez drugiego "designerskiego" koloru (terakota+kremowe tło = dokładnie rozpoznawalny
+	   wzorzec AI-slop, patrz artifact-design anti-pattern list). Jeden mocny akcent,
+	   dyscyplina kolorystyczna = wygląda jak wybór, nie generator. ── */
+	--c-brand:        #07456f;   /* primary — navy, jedyny akcent marki */
+	--c-brand-hover:  #053556;   /* ciemniejszy navy (hover na jasnym tle) */
+	--c-brand-deep:   #052538;   /* najciemniejszy navy — dark sekcje (CTA/stopka) */
+	--c-brand-soft:   #e8edf1;   /* jasny navy tint — tła/badge na jasnym tle */
+	--c-brand-ink:    #07456f;   /* akcent tekstowy na jasnym tle — ciemny navy, ~8:1 */
+	--c-ink:          #16181b;   /* tekst główny — ciepła prawie-czerń (nie #000) */
+	--c-ink-soft:     #52565c;   /* tekst drugorzędny */
+	--c-muted:        #74787e;   /* opisy/meta */
+	--c-line:         #e2e2e0;   /* hairline dividery — neutralne, nie zimny szary ani ciepły beż */
+	--c-line-strong:  #c7c7c2;   /* mocniejszy border — inputy/kontrolki, gdzie hairline --c-line jest za słaby by sygnalizować "to jest pole do kliknięcia" */
+	--c-bg:           #faf9f7;   /* tło strony — bardzo subtelny ciepły off-white (Kennedy: nie #fff czysty) */
+	--c-bg-alt:       #f2f1ee;   /* tło sekcji naprzemiennych */
+	--c-card:         #ffffff;   /* karty/panele — czysta biel na tle off-white daje separację */
+	/* Semantyczne */
+	--c-success:      #0f9d63;
+	--c-warning:      #b9720a;
+	--c-danger:       #c53030;
+	--c-on-brand:     #ffffff;   /* tekst na navy — biały, ~8:1 */
+
+	/* ── DRUGI AKCENT — celowo NIEUŻYWANY jako wypełnienie/kolor domyślny. Zdefiniowany
+	   jako neutralny "warm stone" na wypadek gdy komponent go czyta (fallback), ale
+	   żaden aktywny styl na tej stronie go nie wybiera świadomie — navy niesie cały akcent. ── */
+	--c-accent:       #07456f;
+	--c-accent-hover: #053556;
+	--c-accent-text:  #07456f;
+
+	/* ── TYPOGRAFIA — Antic Didone (display, wysoki kontrast kreski, edytorialny/fashion,
+	   DOKŁADNIE font referencji creativemox/Envi — nie generyczny "AI-safe" wybór jak
+	   Fraunces/Playfair) + Inter (body, ta sama referencja go używa). ── */
+	--font-display: "Newsreader", Georgia, "Times New Roman", serif;
+	--font-body:    "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+	--fw-regular: 400;
+	--fw-medium:  500;
+	--fw-semibold:600;
+	--fw-bold:    700;
+	--text-xs:  0.8125rem; /* 13 */
+	--text-sm:  0.9375rem; /* 15 */
+	--text-base:1.0625rem; /* 17 */
+	--text-lg:  clamp(1.375rem, 0.6vw + 1.2rem, 1.6rem);   /* 22–26 */
+	--text-xl:  clamp(2rem, 1.8vw + 1.2rem, 2.9rem);       /* 32–46 */
+	--text-2xl: clamp(2.4rem, 4vw + 1rem, 3.6rem);         /* hero */
+	--lh-tight: 1.1;
+	--lh-body:  1.6;
+	--ls-tight: 0em; /* Antic Didone: bez negative tracking, ma już wysoki kontrast kresek */
+
+	/* ── SPACING (skala 4/8) ── */
+	--sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+	--sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px;
+
+	/* ── ZAOKRĄGLENIA — ostre, edytorialne. ── */
+	--radius-sm:  2px;
+	--radius-md:  3px;
+	--radius-lg:  4px;
+	--radius-xl:  4px;
+	/* PRAWDZIWA pigułka/koło (9999px) — NIE 2px. --radius-pill nazwą obiecuje pełne
+	   zaokrąglenie i jest używana przez badge/avatar/FAB/toast/tagi (~12 miejsc), które
+	   muszą być okrągłe/w pełni pigułkowe. Był tu błędnie wpisany "ostry" promień
+	   przycisków (2px) — efekt: FAB telefonu i plakietki renderowały się jako ledwo
+	   zaokrąglone kwadraty zamiast koła/pigułki. Przyciski mają WŁASNY, celowo ostry
+	   promień przez --btn-radius poniżej — ostrość zostaje tylko tam, gdzie była chciana. */
+	--radius-pill: 9999px;
+
+	/* ── PRZYCISKI/INPUTY/KONTENERY ── */
+	--ls-body: 0em;
+	--btn-radius: 2px;
+	--btn-height-md: 56px;
+	--btn-height-sm: 44px;
+	--btn-padding-x: 28px;
+	--btn-padding-x-sm: 18px;
+	--btn-border-width: 1.5px;
+	--btn-primary-bg: var(--c-brand);
+	--btn-primary-bg-hover: var(--c-brand-hover);
+	--btn-primary-color: var(--c-on-brand);
+	--btn-primary-border: var(--c-brand);
+	--btn-secondary-bg: transparent;
+	--btn-secondary-bg-hover: var(--c-brand-soft);
+	--btn-secondary-color: var(--c-ink);
+	--btn-secondary-border: var(--c-line);
+	--btn-text-transform: none;
+	--btn-letter-spacing: normal;
+	--input-padding: 14px 16px;
+	--input-border-width: 1.5px;
+	--container-padding: var(--sp-5);
+	--container-padding-sm: var(--sp-4);
+
+	/* ── CIENIE (subtelne, 3 poziomy) ── */
+	--shadow-card:  0 1px 3px rgba(20,22,28,.06), 0 1px 2px rgba(20,22,28,.04);
+	--shadow-lift:  0 12px 28px rgba(20,22,28,.10);
+	--shadow-modal: 0 24px 60px rgba(20,22,28,.18);
+
+	/* ── MOTION (kanon animacji) ── */
+	--dur-fast: 150ms;
+	--dur-base: 220ms;
+	--dur-slow: 420ms;
+	--ease: cubic-bezier(.22,.61,.36,1);
+	--ease-out: cubic-bezier(.16,1,.3,1);
+
+	/* ── LAYOUT ── */
+	--container: 1200px;
+	--container-narrow: 760px;
+	--header-h: 76px;
+	--z-header: 100;
+	--z-drawer: 200;
+	--z-modal: 300;
+	--z-toast: 400;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root { --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; }
+}

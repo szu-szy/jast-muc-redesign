@@ -1,0 +1,59 @@
+/* ============================================================
+   LAYOUT — kontener, siatka, rytm sekcji, utils.
+   ============================================================ */
+
+.iab-container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--container-padding); }
+.iab-container--narrow { max-width: var(--container-narrow); }
+
+/* Rytm sekcji */
+.iab-section { padding-block: var(--sp-9); }
+.iab-section--tight { padding-block: var(--sp-7); }
+.iab-section--alt { background: var(--c-bg-alt); }
+
+/* Nagłówek sekcji */
+.iab-section-head { max-width: var(--container-narrow); margin-bottom: var(--sp-7); }
+.iab-section-head--center { margin-inline: auto; text-align: center; }
+.iab-section-head--split { display: flex; justify-content: space-between; align-items: end; gap: var(--sp-4); flex-wrap: wrap; max-width: none; }
+.iab-eyebrow { display: inline-block; font-size: var(--text-sm); font-weight: var(--fw-semibold); letter-spacing: .04em; text-transform: uppercase; color: var(--c-brand-ink); margin-bottom: var(--sp-2); }
+.iab-section-head p { color: var(--c-muted); margin-top: var(--sp-3); }
+
+/* Siatka */
+.iab-grid { display: grid; gap: var(--sp-5); }
+.iab-grid--2 { grid-template-columns: repeat(2, 1fr); }
+.iab-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.iab-grid--4 { grid-template-columns: repeat(4, 1fr); }
+.iab-grid--auto { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+/* Split (treść + sidebar) */
+.iab-split { display: grid; gap: var(--sp-7); }
+.iab-split--sidebar-left { grid-template-columns: 300px 1fr; } /* blog single: sidebar PO LEWEJ */
+
+/* Header offset (sticky header) */
+.iab-main { min-height: 50vh; }
+body { padding-top: var(--header-h); }
+
+/* Utils */
+.iab-hidden { display: none !important; }
+.iab-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.iab-stack > * + * { margin-top: var(--sp-4); }
+.iab-center { text-align: center; }
+.iab-flow-cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+/* Na mobile dwa auto-width przyciski w kolumnie miały różną szerokość (każdy = szerokość
+   własnego tekstu) -> nierówne prawe krawędzie, "krzywo". Gdy się złożą w kolumnę, każdy
+   dostaje pełną szerokość i wyrównane krawędzie. */
+@media (max-width: 560px) {
+	.iab-flow-cta { flex-direction: column; }
+	.iab-flow-cta .iab-btn { width: 100%; }
+}
+
+/* ── Responsywność (12 / 8 / 4 kolumny) ── */
+@media (max-width: 1024px) {
+	.iab-grid--4 { grid-template-columns: repeat(2, 1fr); }
+	.iab-split--sidebar-left { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+	:root { --header-h: 64px; }
+	.iab-section { padding-block: var(--sp-7); }
+	.iab-grid--2, .iab-grid--3, .iab-grid--4 { grid-template-columns: 1fr; }
+	.iab-container { padding-inline: var(--container-padding-sm); }
+}

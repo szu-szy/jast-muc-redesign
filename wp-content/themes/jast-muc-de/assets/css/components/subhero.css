@@ -1,0 +1,115 @@
+/**
+ * Subpage-Hero (.iab-subhero) — leichter, textur-hinterlegter Kopfbereich für
+ * Inhaltsseiten ohne eigenes Foto (Kontakt, FAQ, Preise, Über uns, rechtliche
+ * Seiten). Runda 16(2) — user: "kontakt wyglada jak blok tekstu, popatrz jak
+ * jest robione na innych stronach (mnc concept, xelox)" — Referenzen zeigen
+ * IMMER eine visuelle Kopfzeile vor dem Fließtext, nie ein nacktes H1 auf
+ * Seitenhintergrund. Bewusst HELL (Mesh+Dots-Textur, kein dunkles Panel) —
+ * die dunkle Theme-Runde wurde vom Kunden explizit abgelehnt (siehe
+ * DESIGN-DECISIONS), .iab-art-hero (dunkel+Foto) bleibt reserviert für
+ * single-usluga.
+ * @package iab
+ */
+.iab-subhero {
+	position: relative;
+	overflow: hidden;
+	padding-block: var(--sp-7) var(--sp-8);
+	background: var(--c-bg-alt);
+	border-bottom: 1px solid var(--c-line);
+}
+.iab-subhero__bg { position: absolute; inset: 0; z-index: 0; }
+.iab-subhero__inner { position: relative; z-index: 1; }
+
+/* Foto-Variante (Runda 16(3) — user: "zdjęcie daj w o nas", keine leeren Texturen
+   mehr auf Seiten mit echtem, thematisch passendem Foto). */
+.iab-subhero--media { padding-block: var(--sp-9); border-bottom: none; }
+.iab-subhero--media .iab-subhero__bg { background-size: cover; background-position: center; }
+.iab-subhero--media .iab-subhero__scrim { position: absolute; inset: 0; z-index: 0; background: linear-gradient(180deg, rgba(5,13,20,.35) 0%, rgba(5,13,20,.72) 100%); }
+.iab-subhero--media .iab-subhero__crumbs, .iab-subhero--media .iab-subhero__crumbs a { color: rgba(255,255,255,.75); }
+.iab-subhero--media .iab-subhero__crumbs span[aria-current] { color: #fff; }
+.iab-subhero--media .iab-eyebrow { color: #fff; }
+.iab-subhero--media .iab-subhero__title { color: #fff; }
+.iab-subhero--media .iab-subhero__lead { color: rgba(255,255,255,.85); }
+.iab-subhero--media .iab-btn--secondary { color: #fff; border-color: rgba(255,255,255,.6); }
+.iab-subhero--media .iab-btn--secondary:hover { background: rgba(255,255,255,.14); border-color: #fff; color: #fff; }
+
+/* Team ohne bestätigtes echtes Foto (Runda 16(3)) — Silhouette-Avatar-Icon statt
+   leerer Farbverlauf-Box; .iab-expert__photo/.iab-member__photo bekommen ein
+   echtes Bild via background-image NUR wenn iab_content('team.*.photo') gesetzt ist. */
+.iab-expert__photo { background-size: cover; background-position: center; }
+.iab-member__photo { background-size: cover; background-position: center; }
+.iab-expert__photo--avatar, .iab-member__photo--avatar { display: flex; align-items: center; justify-content: center; color: var(--c-brand-ink); }
+.iab-expert__photo--avatar .iab-ico { width: 48px; height: 48px; }
+.iab-member__photo--avatar .iab-ico { width: 32px; height: 32px; }
+
+.iab-subhero__crumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--text-xs); color: var(--c-muted); margin-bottom: var(--sp-5); }
+.iab-subhero__crumbs a { color: var(--c-muted); text-decoration: none; }
+.iab-subhero__crumbs a:hover { color: var(--c-brand-ink); text-decoration: underline; }
+.iab-subhero__crumbs span[aria-current] { color: var(--c-ink); }
+
+.iab-subhero__title { font-size: var(--text-xl); margin: var(--sp-2) 0 var(--sp-3); max-width: 20ch; }
+.iab-subhero__lead { font-size: var(--text-base); color: var(--c-ink-soft); max-width: 62ch; line-height: var(--lh-body); }
+
+.iab-subhero__actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-6); }
+.iab-subhero__badge { font-family: var(--font-display); font-size: var(--text-sm); color: var(--c-brand-ink); background: var(--c-brand-soft); padding: var(--sp-1) var(--sp-3); border-radius: var(--radius-pill); }
+
+@media (max-width: 720px) {
+	.iab-subhero { padding-block: var(--sp-6) var(--sp-7); }
+	.iab-subhero__title { max-width: none; }
+}
+
+/**
+ * Über-uns Geschichte-Sektion (Runda 16(4)) — echtes Foto (.iab-about-media)
+ * mit dem "seit 2005"-Badge ALS OVERLAY auf dem Foto (Vorbild: xelox
+ * .xelox-about__badge über .xelox-about__photo), nicht als eigenständige
+ * Farbverlauf-Box anstelle eines Fotos.
+ */
+.iab-about-media { position: relative; padding-bottom: var(--sp-5); }
+.iab-about-media img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
+.iab-about-badge {
+	position: absolute; right: var(--sp-5); bottom: 0; z-index: 1;
+	background: var(--c-card); border-radius: var(--radius-md);
+	box-shadow: 0 18px 40px rgba(5,13,20,.18);
+	padding: var(--sp-4) var(--sp-5);
+	display: flex; flex-direction: column; align-items: center; text-align: center;
+	gap: 2px;
+}
+.iab-about-badge__num { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.2rem); color: var(--c-brand-ink); line-height: 1; }
+.iab-about-badge__txt { font-size: var(--text-xs); color: var(--c-ink-soft); line-height: 1.4; }
+@media (max-width: 640px) {
+	.iab-about-badge { right: var(--sp-4); padding: var(--sp-3) var(--sp-4); }
+}
+
+/* Team-Sektion (Runda 16(4)) — echtes Arbeits-Foto neben der Bio statt Sylhouette-
+   Icon, wenn iab_content('team.solo.photo') gesetzt ist (Fallback bleibt die
+   Sylhouette für Projekte ohne freies Foto) — .iab-expert__photo Basis-Styling
+   weiter oben in dieser Datei. */
+
+/* Leistungsspektrum-Chips (Über uns) — kompakte Link-Reihe statt Bullet-Liste. */
+.iab-chip-row { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-3); }
+.iab-chip {
+	display: inline-flex; align-items: center; gap: var(--sp-2);
+	padding: var(--sp-2) var(--sp-4); border-radius: var(--radius-pill);
+	border: 1px solid var(--c-line); color: var(--c-ink); text-decoration: none;
+	font-size: var(--text-sm); font-weight: var(--fw-medium);
+	transition: border-color var(--dur-base) var(--ease), background var(--dur-base) var(--ease);
+}
+.iab-chip .iab-ico { color: var(--c-brand-ink); }
+.iab-chip:hover { border-color: var(--c-brand-ink); background: var(--c-brand-soft); }
+
+/* Werte-Karten-Icon (Über uns) — sichtbarer Badge, unabhängig von .iab-why__check
+   (die ist im "Warum wir"-Muster bewusst display:none, per Zahlen-::before ersetzt). */
+.iab-card__icon {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 40px; height: 40px; border-radius: 50%;
+	background: var(--c-brand-soft); color: var(--c-brand-ink);
+	margin-bottom: var(--sp-3);
+}
+
+/* Preise: Zitat-Callout ("Warum individuelles Angebot statt Preisliste"). */
+.iab-pricing-quote {
+	margin: var(--sp-7) auto 0; max-width: 68ch; text-align: center;
+	padding: var(--sp-6) var(--sp-5) 0; border-top: 1px solid var(--c-line);
+}
+.iab-pricing-quote p { font-family: var(--font-display); font-size: var(--text-lg); color: var(--c-ink); line-height: 1.5; }
+.iab-pricing-quote strong { color: var(--c-brand-ink); }

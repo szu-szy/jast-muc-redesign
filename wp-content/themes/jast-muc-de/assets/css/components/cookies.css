@@ -1,0 +1,95 @@
+/* ── CookieYes (cookie-law-info) — override na tokenach marki ───────────────
+   Baseline (memory feedback_wp_builder_cookies_modal_baseline):
+   CENTROWANY modal + backdrop blur (NIE dolny banner) + akcent marki + PL.
+   CookieYes 3.x renderuje .cky-consent-container > .cky-consent-bar (notice)
+   oraz osobny .cky-modal/.cky-overlay (preferencje). Tu wymuszamy centrowanie. */
+
+.cky-consent-container { z-index: var(--z-modal) !important; }
+/* CookieYes ukrywa przez .cky-hide — musi wygrać z display:flex poniżej */
+.cky-consent-container.cky-hide { display: none !important; }
+
+/* Backdrop pełnoekranowy + wyśrodkowanie karty zgody (notice). */
+.cky-consent-container.cky-classic-bottom,
+.cky-consent-container {
+	position: fixed !important;
+	inset: 0 !important;
+	left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important;
+	width: 100% !important;
+	max-width: none !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	padding: var(--sp-4) !important;
+	background: rgba(6, 24, 38, 0.6) !important;           /* navy scrim, marka JAST */
+	-webkit-backdrop-filter: blur(8px) !important;
+	backdrop-filter: blur(8px) !important;
+}
+
+/* Karta zgody — wycentrowana, brand, zaokrąglona, cień modala + górny pasek akcentu. */
+.cky-consent-bar {
+	position: relative !important;
+	left: auto !important; right: auto !important; top: auto !important; bottom: auto !important;
+	transform: none !important;
+	margin: 0 auto !important;
+	width: 100% !important;
+	max-width: 540px !important;
+	background: linear-gradient(135deg, var(--c-brand-soft) 0%, transparent 60%), var(--c-card) !important;
+	border: 1px solid var(--c-line) !important;
+	border-top: 4px solid var(--c-brand) !important;       /* górny akcent marki */
+	border-radius: var(--radius-lg) !important;
+	box-shadow: var(--shadow-modal) !important;
+	color: var(--c-ink) !important;
+	padding: var(--sp-6) !important;
+	font-family: var(--font-body) !important;
+	animation: cky-pop var(--dur-base, .35s) var(--ease, ease) both;
+}
+@keyframes cky-pop { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+
+.cky-title {
+	font-family: var(--font-display) !important;
+	font-weight: var(--fw-bold) !important;
+	font-size: var(--text-lg) !important;
+	color: var(--c-ink) !important;
+	letter-spacing: var(--ls-tight) !important;
+	margin: 0 0 var(--sp-3) 0 !important;
+}
+.cky-notice-des, .cky-notice-des * { color: var(--c-ink-soft) !important; font-size: var(--text-sm) !important; line-height: var(--lh-body) !important; }
+
+/* Przyciski → styl marki (pill + 3 akcje: Akceptuję / Odrzucam / Ustawienia). */
+.cky-btn {
+	border-radius: var(--radius-pill) !important;
+	font-family: var(--font-display) !important;
+	font-weight: var(--fw-semibold) !important;
+	font-size: var(--text-sm) !important;
+	padding: 12px 22px !important;
+	border: 1.5px solid var(--c-line) !important;
+	transition: all var(--dur-fast) var(--ease) !important;
+}
+.cky-btn-accept { background: var(--c-brand) !important; color: var(--c-on-brand) !important; border-color: var(--c-brand) !important; }
+.cky-btn-accept:hover { background: var(--c-brand-hover) !important; border-color: var(--c-brand-hover) !important; }
+.cky-btn-reject, .cky-btn-customize, .cky-btn-preferences { background: transparent !important; color: var(--c-ink) !important; }
+.cky-btn-reject:hover, .cky-btn-customize:hover, .cky-btn-preferences:hover { background: var(--c-brand-soft) !important; color: var(--c-brand-hover) !important; border-color: var(--c-brand) !important; }
+
+/* Modal preferencji (już centrowany przez plugin) + jego overlay → ten sam brand backdrop. */
+.cky-overlay { background: rgba(6, 24, 38, 0.6) !important; -webkit-backdrop-filter: blur(8px) !important; backdrop-filter: blur(8px) !important; }
+.cky-modal, .cky-preference-center { border-radius: var(--radius-lg) !important; box-shadow: var(--shadow-modal) !important; }
+.cky-preference-title, .cky-preference-header { font-family: var(--font-display) !important; color: var(--c-ink) !important; }
+.cky-accordion-header-des, .cky-preference-content-wrapper { color: var(--c-ink-soft) !important; }
+
+/* Toggle (3 kategorie zgód) w kolorze marki gdy włączone. */
+.cky-switch input:checked + label,
+.cky-switch input:checked ~ .cky-switch-bar,
+input.cky-switch-input:checked + .cky-switch-bar { background: var(--c-brand) !important; }
+
+/* Przycisk „revisit” (ponowne otwarcie ustawień) — w kolorze marki. */
+.cky-btn-revisit-wrapper { background: var(--c-brand) !important; }
+/* Na mobile zderza się z FAB telefonu w tym samym rogu i zajmuje miejsce — user: nie musi
+   być widoczny na mobile. Ustawienia cookies nadal dostępne z poziomu Datenschutz. */
+@media (max-width: 720px) {
+	.cky-btn-revisit-wrapper { display: none !important; }
+}
+
+/* Mobile — karta na całą szerokość z marginesem. */
+@media (max-width: 576px) {
+	.cky-consent-bar { padding: var(--sp-5) !important; max-width: 100% !important; }
+}

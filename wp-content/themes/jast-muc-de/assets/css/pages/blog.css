@@ -1,0 +1,264 @@
+/* ════════════════════════════════════════════════════════════════════
+   BLOG — hero + layout 2-kol (treść + prawy sidebar) + pozioma karta wpisu
+   Token-based — re-skin flipuje tokeny i blog dziedziczy motyw automatycznie. @package iab
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── Hero archiwum (kategoria/tag) ── */
+.iab-blog-hero { padding: clamp(40px, 6vw, 72px) 0 clamp(20px, 3vw, 32px); }
+.iab-blog-hero__title { font-family: var(--font-display); font-size: clamp(2.1rem, 4vw, 3.1rem); line-height: 1.06; margin: 10px 0 0; color: var(--c-ink); }
+.iab-blog-hero__lead { max-width: 640px; margin: 14px 0 0; color: var(--c-ink-soft); line-height: 1.7; }
+
+/* ── Layout: treść + sidebar ── */
+.iab-blog-layout { display: grid; grid-template-columns: 1fr; gap: clamp(32px, 4vw, 60px); padding-bottom: clamp(56px, 8vw, 100px); align-items: start; }
+@media (min-width: 980px) { .iab-blog-layout { grid-template-columns: minmax(0, 1fr) 320px; } }
+
+.iab-blog-main { display: flex; flex-direction: column; gap: clamp(20px, 2.4vw, 30px); }
+
+/* ── Karta wpisu — pozioma (miniatura | treść) ── */
+.iab-post-card {
+	display: grid; grid-template-columns: 1fr; overflow: hidden;
+	background: var(--c-card); border: 1px solid var(--c-line); border-radius: var(--radius-lg);
+	box-shadow: 0 18px 44px -28px rgba(0,0,0,.12);
+	transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+@media (min-width: 620px) { .iab-post-card { grid-template-columns: 38% 1fr; } }
+.iab-post-card:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -28px rgba(0,0,0,.14); border-color: color-mix(in srgb, var(--c-brand) 40%, transparent); }
+
+.iab-post-card__media {
+	position: relative; display: block; min-height: 200px;
+	background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; background-color: var(--c-bg-alt);
+}
+@media (min-width: 620px) { .iab-post-card__media { min-height: 100%; } }
+.iab-post-card__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(10,18,15,.12), rgba(10,18,15,.42)); }
+.iab-blog-card__ph { position: absolute; inset: 0; display: grid; place-items: center; color: var(--c-line-strong); }
+
+/* Kategoria — CZYTELNY chip (był nieczytelny) */
+.iab-post-card__cat {
+	position: absolute; top: 14px; left: 14px; z-index: 1;
+	background: var(--c-brand); color: var(--c-on-brand);
+	font-family: var(--font-body); font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+	padding: 6px 12px; border-radius: var(--radius-pill); box-shadow: 0 6px 16px -6px rgba(0,0,0,.1);
+}
+
+.iab-post-card__body { padding: clamp(20px, 2.4vw, 30px); display: flex; flex-direction: column; gap: 10px; }
+.iab-post-card__meta-top { display: flex; align-items: center; gap: 16px; font-size: .78rem; color: var(--c-brand); letter-spacing: .03em; }
+.iab-post-card__time { display: inline-flex; align-items: center; gap: 6px; }
+.iab-post-card__date { color: var(--c-ink-soft); }
+.iab-post-card__title { font-family: var(--font-display); font-size: clamp(1.25rem, 1.9vw, 1.6rem); line-height: 1.18; margin: 2px 0 0; }
+.iab-post-card__title a { color: var(--c-ink); text-decoration: none; transition: color .25s var(--ease); }
+.iab-post-card:hover .iab-post-card__title a { color: var(--c-brand); }
+.iab-post-card__excerpt { color: var(--c-ink-soft); line-height: 1.65; font-size: .94rem; margin: 0; }
+.iab-post-card__more { margin-top: auto; padding-top: 8px; color: var(--c-brand); font-weight: 600; font-size: .88rem; letter-spacing: .03em; }
+.iab-post-card__more span { transition: margin .25s var(--ease); }
+.iab-post-card:hover .iab-post-card__more span { margin-left: 5px; }
+
+/* ── Paginacja ── */
+.iab-blog-pagination { margin-top: clamp(16px, 2vw, 24px); }
+.iab-blog-pagination .nav-links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.iab-blog-pagination .page-numbers {
+	display: inline-grid; place-items: center; min-width: 44px; height: 44px; padding: 0 12px;
+	border: 1px solid var(--c-line); border-radius: var(--radius-md); color: var(--c-ink-soft); text-decoration: none;
+	transition: background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease);
+}
+.iab-blog-pagination .page-numbers:hover { border-color: var(--c-brand); color: var(--c-ink); }
+.iab-blog-pagination .page-numbers.current { background: var(--c-brand); color: var(--c-on-brand); border-color: var(--c-brand); font-weight: 700; }
+
+/* ── Sidebar (prawy) ── */
+.iab-blog-aside { display: flex; flex-direction: column; gap: clamp(18px, 2vw, 26px); position: sticky; top: 100px; }
+@media (max-width: 979px) { .iab-blog-aside { position: static; } }
+.iab-blog-aside__box { background: var(--c-card); border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: clamp(18px, 2vw, 24px); }
+.iab-blog-aside__h { font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 14px; color: var(--c-ink); padding-bottom: 10px; border-bottom: 1px solid var(--c-line); }
+
+/* Szukaj */
+.iab-blog-aside__search { display: flex; gap: 8px; }
+.iab-blog-aside__search input { flex: 1; min-width: 0; background: var(--c-bg-alt); border: 1px solid var(--c-line); border-radius: var(--radius-md); padding: 10px 12px; color: var(--c-ink); font: inherit; }
+.iab-blog-aside__search input::placeholder { color: var(--c-ink-soft); }
+.iab-blog-aside__search button { flex: none; display: grid; place-items: center; width: 42px; background: var(--c-brand); color: var(--c-on-brand); border: 0; border-radius: var(--radius-md); cursor: pointer; }
+.iab-blog-aside__search button:hover { background: var(--c-brand-hover); }
+
+/* Kategorie */
+.iab-blog-aside__cats { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.iab-blog-aside__cats li { margin: 0; }
+.iab-blog-aside__cats a { display: flex; justify-content: space-between; gap: 10px; padding: 9px 4px; color: var(--c-ink-soft); text-decoration: none; border-bottom: 1px solid var(--c-line); transition: color .2s var(--ease), padding .2s var(--ease); }
+.iab-blog-aside__cats a:hover { color: var(--c-brand); padding-left: 8px; }
+
+/* Ostatnie wpisy — miniatura + tytuł */
+.iab-blog-aside__recent { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.iab-blog-aside__recent a { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center; color: var(--c-ink); text-decoration: none; }
+.iab-blog-aside__thumb { width: 56px; height: 56px; border-radius: var(--radius-md); background-size: cover; background-position: 50% 50%; background-color: var(--c-bg-alt); box-shadow: 0 8px 18px -10px rgba(0,0,0,.12); }
+.iab-blog-aside__rt { font-size: .9rem; line-height: 1.35; transition: color .2s var(--ease); }
+.iab-blog-aside__recent a:hover .iab-blog-aside__rt { color: var(--c-brand); }
+
+/* CTA */
+.iab-blog-aside__cta { background: linear-gradient(160deg, var(--c-brand-soft), var(--c-brand-soft)); border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: clamp(20px, 2.4vw, 28px); }
+.iab-blog-aside__cta h3 { font-family: var(--font-display); font-size: 1.2rem; margin: 0 0 8px; color: var(--c-ink); }
+.iab-blog-aside__cta p { color: var(--c-ink-soft); font-size: .9rem; line-height: 1.6; margin: 0 0 16px; }
+
+/* ════════════════════════════════════════════════════════════════════
+   POJEDYNCZY ARTYKUŁ (single) — standard Onet: progress · hero · sticky TOC · share · autor · related
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Progress bar czytania */
+.iab-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 1200; background: rgba(0,0,0,.06); }
+.iab-progress__bar { display: block; height: 100%; background: var(--c-accent, var(--c-brand)); transform: scaleX(0); transform-origin: 0 50%; will-change: transform; }
+
+/* Hero artykułu / usługi */
+.iab-art-hero { position: relative; min-height: clamp(400px, 54vh, 560px); display: flex; align-items: flex-end; overflow: hidden; }
+.iab-art-hero--plain { min-height: 0; padding-top: clamp(40px, 6vw, 80px); background: var(--c-bg-alt); }
+.iab-art-hero__media { position: absolute; inset: 0; z-index: -2; background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; }
+/* Delikatniejszy scrim (user: "zdjecia na hero ladniejsze powinny byc") — zdjęcie ma
+   przebijać wyraźniej, kontrast tekstu nadal bezpieczny (biały tekst + text-shadow). */
+.iab-art-hero__scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(8,14,20,.32) 0%, rgba(8,14,20,.38) 45%, rgba(6,11,16,.8) 100%); }
+.iab-art-hero__inner { padding-block: clamp(28px, 4vw, 52px); }
+/* template-parts/breadcrumbs.php owija się we WŁASNY .iab-container — tu ląduje
+   zagnieżdżony wewnątrz .iab-container.iab-art-hero__inner, więc padding-inline liczy
+   się podwójnie (16px+16px=32px) i breadcrumb wystaje 16px w prawo względem tytułu/H1
+   poniżej. Zerujemy box wewnętrznego kontenera, żeby dziedziczył krawędzie z zewnętrznego. */
+.iab-art-hero__inner .iab-breadcrumbs .iab-container { padding-inline: 0; max-width: none; margin-inline: 0; }
+.iab-art-hero__cat { display: inline-block; background: var(--c-brand); color: var(--c-on-brand); font-size: .74rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 6px 14px; border-radius: var(--radius-pill); text-decoration: none; margin-bottom: 16px; }
+/* Tytuł leży na ciemnym scrimie zdjęcia (.iab-art-hero__scrim) — var(--c-ink) to ciemny
+   tekst, więc renderował się prawie nieczytelnie (ciemne-na-ciemnym). Białe tylko w
+   wariancie ze zdjęciem; .iab-art-hero--plain (bez foto, jasne tło) zostaje przy --c-ink. */
+.iab-art-hero__title { font-family: var(--font-display); font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1.08; color: var(--c-on-brand); max-width: 22ch; margin: 0; text-shadow: 0 2px 24px rgba(0,0,0,.4); }
+.iab-art-hero--plain .iab-art-hero__title { color: var(--c-ink); text-shadow: none; }
+/* Podtytuł/wstępny akapit w hero — reużywane też przez single-usluga.php (foto-hero
+   usługi: breadcrumb+tytuł+lead na zdjęciu), nie tylko blog. */
+.iab-art-hero__lead { color: rgba(255,255,255,.85); font-size: var(--text-base); max-width: 60ch; margin: var(--sp-3) 0 0; }
+.iab-art-hero--plain .iab-art-hero__lead { color: var(--c-ink-soft); }
+/* CTA w hero usługi — dwa warianty przełączane widocznością: desktop scrolluje do
+   sekcji "Angebot anfordern" na dole strony, mobile otwiera bottom-sheet (ten sam
+   mechanizm co .iab-mobar). Nie mogą być tym samym elementem — różne cele kliknięcia
+   per viewport. Ósma runda — user: "pierwsza sekcja... przycisk cta i do telefonu" —
+   .iab-art-hero__actions grupuje CTA + link telefoniczny (drugorzędny, mniejsza waga
+   wizualna niż primary CTA — patrz senior-ui-craft "Anatomia hero konwersyjnego"). */
+.iab-art-hero__actions { margin-top: var(--sp-5); display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-6); }
+.iab-art-hero__cta--mobile { display: none; }
+@media (max-width: 1024px) {
+	.iab-art-hero__cta--desktop { display: none; }
+	.iab-art-hero__cta--mobile { display: inline-flex; }
+}
+.iab-art-hero__phone { display: inline-flex; align-items: center; gap: var(--sp-2); color: #fff; font-weight: var(--fw-medium); border-bottom: 1.5px solid color-mix(in srgb, #fff 45%, transparent); padding-bottom: 2px; }
+.iab-art-hero__phone:hover { border-color: #fff; }
+.iab-art-hero--plain .iab-art-hero__phone { color: var(--c-ink); border-bottom-color: var(--c-line-strong); }
+/* 2026-09-14 (czwarta runda): user "przycisk w hero niewidoczny" — navy .iab-btn--primary
+   na scrimie który u dołu sięga rgba(6,11,16,.8) (prawie czarny) = navy-na-prawie-czarnym,
+   realnie niski kontrast KRAWĘDZI przycisku mimo że tekst w środku biały i czytelny. Scoped
+   tylko do podstrony usługi (nie blog — tam obecny navy-na-scrimie zostaje, nie było zgłoszone
+   jako problem) — jasny/kremowy przycisk gwarantuje kontrast niezależnie od zdjęcia w tle. */
+body.single-usluga .iab-art-hero__cta.iab-btn--primary {
+	background: var(--c-bg);
+	border-color: var(--c-bg);
+	color: var(--c-brand-ink);
+}
+body.single-usluga .iab-art-hero__cta.iab-btn--primary:hover {
+	background: #fff;
+	border-color: #fff;
+	color: var(--c-brand-hover);
+}
+.iab-art-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; color: var(--c-ink-soft); font-size: .9rem; }
+.iab-art-meta__author { font-weight: 600; color: var(--c-brand); }
+.iab-art-meta__sep { color: var(--c-ink-soft); }
+.iab-art-meta__rt { display: inline-flex; align-items: center; gap: 6px; }
+/* Meta + breadcrumbs (template-parts/breadcrumbs) renderują się WEWNĄTRZ .iab-art-hero__inner
+   -> na wariancie ze zdjęciem siedzą na tym samym ciemnym scrimie co tytuł. Domyślne kolory
+   (--c-ink-soft/--c-muted/--c-line) są dobrane pod jasne tło = ciemne-na-ciemnym tutaj. */
+.iab-art-hero:not(.iab-art-hero--plain) .iab-art-meta,
+.iab-art-hero:not(.iab-art-hero--plain) .iab-art-meta__sep { color: rgba(255,255,255,.75); }
+.iab-art-hero:not(.iab-art-hero--plain) .iab-art-meta__author { color: #fff; }
+.iab-art-hero:not(.iab-art-hero--plain) .iab-breadcrumbs { border-bottom: 0; }
+.iab-art-hero:not(.iab-art-hero--plain) .iab-breadcrumbs ol,
+.iab-art-hero:not(.iab-art-hero--plain) .iab-breadcrumbs a { color: rgba(255,255,255,.75); }
+.iab-art-hero:not(.iab-art-hero--plain) .iab-breadcrumbs li + li::before { color: rgba(255,255,255,.35); }
+.iab-art-hero:not(.iab-art-hero--plain) .iab-breadcrumbs a:hover,
+.iab-art-hero:not(.iab-art-hero--plain) .iab-breadcrumbs [aria-current="page"] { color: #fff; }
+
+/* Layout: TOC (lewo) + treść (prawo, ~720px) */
+.iab-art-layout { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 4vw, 56px); padding-block: clamp(40px, 6vw, 76px); align-items: start; }
+@media (min-width: 1000px) { .iab-art-layout { grid-template-columns: 260px minmax(0, 1fr); } }
+.iab-art-layout--notoc { max-width: 860px; margin-inline: auto; }
+
+/* Sticky TOC + share */
+.iab-art-toc { display: flex; flex-direction: column; gap: 16px; }
+@media (min-width: 1000px) { .iab-art-toc { position: sticky; top: 100px; } }
+.iab-art-toc__box { background: var(--c-card); border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: 20px 22px; }
+.iab-art-toc__h { font-family: var(--font-display); font-size: 1.05rem; margin: 0 0 12px; color: var(--c-ink); padding-bottom: 10px; border-bottom: 1px solid var(--c-line); }
+.iab-art-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.iab-art-toc li { margin: 0; }
+.iab-art-toc a { display: block; padding: 7px 0; color: var(--c-ink-soft); text-decoration: none; font-size: .9rem; line-height: 1.4; border-left: 2px solid transparent; padding-left: 12px; transition: color .2s var(--ease), border-color .2s var(--ease); }
+.iab-art-toc a:hover { color: var(--c-brand); border-color: var(--c-brand); }
+.iab-art-toc__lvl-3 a { padding-left: 26px; font-size: .85rem; }
+
+.iab-art-share { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.iab-art-share__lbl { font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; color: var(--c-ink-soft); margin-right: 2px; }
+.iab-art-share__btn { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--c-line); background: transparent; color: var(--c-ink-soft); cursor: pointer; text-decoration: none; transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease), border-color .2s var(--ease); }
+.iab-art-share__btn:hover { background: var(--c-brand); color: var(--c-on-brand); border-color: var(--c-brand); transform: translateY(-2px); }
+
+/* Treść artykułu */
+.iab-art-prose { font-size: 1.06rem; line-height: 1.8; }
+.iab-art-prose h2, .iab-art-prose h3 { scroll-margin-top: 92px; font-family: var(--font-display); color: var(--c-ink); }
+.iab-art-prose h2 { font-size: clamp(1.5rem, 2.4vw, 2rem); margin: 2em 0 .6em; }
+.iab-art-prose h3 { font-size: clamp(1.2rem, 1.8vw, 1.5rem); margin: 1.6em 0 .5em; }
+.iab-art-prose p { margin: 0 0 1.3em; color: var(--c-ink-soft); }
+.iab-art-prose > p:first-of-type { font-size: 1.18rem; line-height: 1.7; color: var(--c-ink); }
+.iab-art-prose a { color: var(--c-brand); text-underline-offset: 3px; }
+.iab-art-prose blockquote { margin: 1.6em 0; padding: 4px 0 4px 26px; border-left: 3px solid var(--c-brand); font-family: var(--font-display); font-size: 1.3rem; line-height: 1.5; color: var(--c-ink); font-style: italic; }
+.iab-art-prose img { border-radius: var(--radius-lg); box-shadow: 0 24px 50px -24px rgba(0,0,0,.1); }
+
+/* Tagi */
+.iab-art-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: clamp(28px,3vw,40px) 0 0; }
+.iab-art-tags a { font-size: .82rem; color: var(--c-ink-soft); border: 1px solid var(--c-line); border-radius: var(--radius-pill); padding: 6px 14px; text-decoration: none; transition: color .2s var(--ease), border-color .2s var(--ease); }
+.iab-art-tags a:hover { color: var(--c-brand); border-color: var(--c-brand); }
+
+/* Karta autora */
+.iab-art-author { display: flex; gap: 18px; align-items: center; margin-top: clamp(32px,4vw,48px); padding: clamp(20px,2.4vw,28px); background: var(--c-card); border: 1px solid var(--c-line); border-radius: var(--radius-lg); }
+.iab-art-author__avatar img { width: 72px; height: 72px; border-radius: 50%; display: block; border: 2px solid var(--c-brand); }
+/* Markenavatar (Anfangsbuchstabe) statt Gravatar-"mystery man" — Vorbild xelox
+   xelox_art_author__avatar, Runda 16(6). */
+.iab-art-author__avatar--initial { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--c-brand); color: var(--c-on-brand); font-family: var(--font-display); font-size: 1.6rem; flex-shrink: 0; }
+.iab-art-author__eyebrow { display: block; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--c-brand); }
+.iab-art-author__name { display: block; font-family: var(--font-display); font-size: 1.2rem; color: var(--c-ink); margin: 2px 0 6px; }
+.iab-art-author__bio { margin: 0; color: var(--c-ink-soft); font-size: .92rem; line-height: 1.6; }
+
+/* CTA na końcu artykułu */
+.iab-art-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-top: clamp(28px,3vw,40px); padding: clamp(24px,3vw,34px); border-radius: var(--radius-lg); background: linear-gradient(150deg, var(--c-brand-soft), var(--c-brand-soft)); border: 1px solid var(--c-line); }
+.iab-art-cta h3 { font-family: var(--font-display); font-size: 1.3rem; margin: 0 0 6px; color: var(--c-ink); }
+.iab-art-cta p { margin: 0; color: var(--c-ink-soft); font-size: .95rem; max-width: 46ch; }
+
+/* Powiązane — 3 karty PIONOWE (override poziomej) */
+.iab-blog-related-sec { padding-bottom: clamp(56px,8vw,100px); }
+.iab-blog-related { display: grid; grid-template-columns: 1fr; gap: clamp(18px,2vw,26px); margin-top: clamp(24px,3vw,40px); }
+@media (min-width: 760px) { .iab-blog-related { grid-template-columns: repeat(3, 1fr); } }
+.iab-blog-related .iab-post-card { grid-template-columns: 1fr; }
+.iab-blog-related .iab-post-card__media { min-height: 0; aspect-ratio: 16 / 10; }
+
+/* Toast „skopiowano" */
+.iab-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 1300; background: var(--c-on-brand); color: var(--c-ink); border: 1px solid var(--c-brand); padding: 12px 22px; border-radius: var(--radius-pill); box-shadow: 0 16px 40px -16px rgba(0,0,0,.12); font-size: .9rem; animation: iab-toast-in .3s var(--ease); }
+@keyframes iab-toast-in { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+/* Fix: odstęp treści/sidebara od hero (nie przyklejać do górnej krawędzi) */
+.iab-blog-layout { padding-top: clamp(40px, 6vw, 72px); }
+/* Cały kafelek wpisu klikalny (stretched link) */
+.iab-post-card { position: relative; }
+.iab-post-card__title a::after { content: ""; position: absolute; inset: 0; z-index: 2; }
+.iab-post-card__more { position: relative; z-index: 1; }
+
+/* ── Artykuł SEO: lead + „W skrócie" + scroll-spy TOC + fix share ── */
+.iab-art-lead { font-size: clamp(1.14rem, 1.5vw, 1.3rem); line-height: 1.66; color: var(--c-ink, #1a1a1a); font-weight: 500; margin: 0 0 clamp(24px,3vw,34px); padding-bottom: clamp(20px,2.5vw,28px); border-bottom: 1px solid var(--c-line, #e5e5e5); }
+.iab-art-summary { border: 1px solid var(--c-line, #e5e5e5); border-radius: 3px; padding: clamp(26px,3.2vw,38px) clamp(28px,3.6vw,42px); margin: 6px 0 clamp(34px,4vw,46px); }
+.iab-art-summary__h { font-family: var(--font-display, inherit); font-size: clamp(1.2rem,1.7vw,1.45rem); font-weight: 600; color: var(--c-accent); margin: 0 0 22px; padding-bottom: 15px; border-bottom: 1px solid var(--c-line, #e5e5e5); }
+.iab-art-summary ul { counter-reset: tk; margin: 0; padding: 0; list-style: none; display: grid; gap: 16px; }
+.iab-art-summary li { counter-increment: tk; position: relative; padding-left: 46px; line-height: 1.6; }
+.iab-art-summary li::before { content: counter(tk, decimal-leading-zero); position: absolute; left: 0; top: -.15em; font-family: var(--font-display, inherit); font-size: 1.18rem; font-weight: 600; color: var(--c-accent); letter-spacing: .02em; }
+.iab-art-toc nav a { transition: color .2s ease, border-color .2s ease; border-left: 2px solid transparent; }
+.iab-art-toc li { position: relative; }
+.iab-art-toc li.is-active > a { color: var(--c-accent); font-weight: 600; }
+.iab-art-share { flex-wrap: wrap; margin-top: 22px; }
+.iab-art-share__lbl { flex: 0 0 100%; margin: 0 0 4px; }
+.iab-art-share__btn { flex: 0 0 auto; box-sizing: border-box; width: 40px; min-width: 40px; height: 40px; padding: 0; }
+.iab-art-share__btn svg { display: block; }
+
+/* Czytelność prozy artykułu: max-width linii + dzielniki sekcji H2 */
+.iab-art-prose > p, .iab-art-prose > ul, .iab-art-prose > ol { max-width: 70ch; }
+.iab-art-prose p { margin: 0 0 1.4em; }
+.iab-art-prose h2 { margin-top: clamp(42px,4vw,62px); margin-bottom: .55em; padding-top: clamp(22px,2.3vw,30px); border-top: 1px solid var(--c-line, #e5e5e5); }
+.iab-art-prose h3 { margin-top: clamp(28px,3vw,40px); margin-bottom: .4em; }

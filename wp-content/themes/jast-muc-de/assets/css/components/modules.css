@@ -1,0 +1,48 @@
+/* ============================================================
+   MODUŁY OPCJONALNE — Przepisy (Recipe) + Metamorfozy (przed/po) + Landing miasta.
+   Ładowane globalnie (glob components/*.css); klasy używane tylko w szablonach modułów.
+   ============================================================ */
+
+/* ── Przepisy: meta w karcie ── */
+.iab-recipe-meta { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin: 0 0 var(--sp-2); font-size: var(--text-xs); color: var(--c-brand-ink); font-weight: var(--fw-medium); }
+.iab-recipe-meta__item { display: inline-flex; align-items: center; gap: 4px; }
+.iab-recipe-meta__item svg { width: 15px; height: 15px; }
+
+/* ── Przepisy: badge na single ── */
+.iab-recipe-badges { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-4); }
+.iab-recipe-badge { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius-pill); background: var(--c-brand-soft); color: var(--c-ink); font-size: var(--text-sm); }
+.iab-recipe-badge strong { color: var(--c-brand-ink); }
+
+/* ── Przepisy: składniki + kroki (2 kolumny → 1 na mobile) ── */
+.iab-recipe-cols { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--sp-6); margin-top: var(--sp-6); }
+@media (max-width: 720px) { .iab-recipe-cols { grid-template-columns: 1fr; } }
+.iab-recipe-list { list-style: none; padding: 0; margin: var(--sp-3) 0 0; }
+.iab-recipe-list li { position: relative; padding: 8px 0 8px 22px; border-bottom: 1px solid var(--c-line); color: var(--c-ink-soft); }
+.iab-recipe-list li::before { content: ""; position: absolute; left: 0; top: 16px; width: 8px; height: 8px; border-radius: 50%; background: var(--c-brand); }
+.iab-recipe-steps { margin: var(--sp-3) 0 0; padding-left: 0; list-style: none; counter-reset: step; }
+.iab-recipe-steps li { position: relative; padding: 0 0 var(--sp-4) calc(var(--sp-6) + 8px); counter-increment: step; color: var(--c-ink-soft); }
+.iab-recipe-steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--c-brand); color: var(--c-on-brand); font-weight: var(--fw-bold); font-size: var(--text-sm); }
+
+/* ── Metamorfozy: przed/po ── */
+.iab-beforeafter { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); margin-top: var(--sp-5); }
+@media (max-width: 560px) { .iab-beforeafter { grid-template-columns: 1fr; } }
+.iab-beforeafter figure { margin: 0; }
+.iab-beforeafter img { width: 100%; height: auto; border-radius: var(--radius-lg); display: block; }
+.iab-beforeafter figcaption { margin-top: var(--sp-2); font-size: var(--text-sm); font-weight: var(--fw-semibold); color: var(--c-brand-ink); text-transform: uppercase; letter-spacing: var(--ls-tight); }
+/* Placeholder gdy brak realnego zdjęcia (przykładowe metamorfozy) */
+.iab-beforeafter__ph { aspect-ratio: 4/5; border-radius: var(--radius-lg); display: grid; place-items: center; text-align: center; padding: var(--sp-4); background: linear-gradient(150deg, var(--c-brand-soft), var(--c-bg-alt)); color: var(--c-muted); font-size: var(--text-sm); border: 1px dashed var(--c-line); }
+.iab-example-note { display: inline-block; margin-top: var(--sp-3); padding: 4px 12px; border-radius: var(--radius-pill); background: var(--c-bg-alt); color: var(--c-muted); font-size: var(--text-xs); }
+
+/* ── Landing miasta ── */
+.iab-local-hero { background: linear-gradient(150deg, var(--c-brand) 0%, var(--c-brand-hover) 100%); color: var(--c-on-brand); border-radius: var(--radius-xl); padding: var(--sp-8) var(--sp-7); }
+.iab-local-hero .iab-eyebrow { color: rgba(255,255,255,.85); }
+.iab-local-hero h1 { color: var(--c-on-brand); }
+.iab-local-hero p { color: rgba(255,255,255,.92); max-width: 60ch; }
+/* CTA na zielonym hero: primary = biały na zieleni, secondary = outline biały (jak cta-band) */
+.iab-local-hero .iab-btn--primary { background: var(--c-on-brand); color: var(--c-brand-ink); border-color: var(--c-on-brand); }
+.iab-local-hero .iab-btn--primary:hover { background: var(--c-brand-soft); border-color: var(--c-brand-soft); color: var(--c-brand-ink); }
+.iab-local-hero .iab-btn--secondary { color: var(--c-on-brand); border-color: var(--c-on-brand); }
+.iab-local-hero .iab-btn--secondary:hover { background: rgba(0,0,0,.12); border-color: var(--c-on-brand); color: var(--c-on-brand); }
+.iab-local-nap { display: flex; flex-wrap: wrap; gap: var(--sp-5); margin-top: var(--sp-5); padding: var(--sp-5); border: 1px solid var(--c-line); border-radius: var(--radius-lg); background: var(--c-bg-alt); }
+.iab-local-nap__item { display: flex; align-items: center; gap: 8px; color: var(--c-ink-soft); font-size: var(--text-sm); }
+.iab-local-nap__item svg { color: var(--c-brand-ink); }

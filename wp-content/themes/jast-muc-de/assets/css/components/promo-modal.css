@@ -1,0 +1,71 @@
+/**
+ * Promo-Modal (Foto+Text-Popup, exit-intent.js) — Vorbild: promo-modal bei
+ * mnc-concept, Farben/Radius/Typo auf JAST-Tokens gemappt (navy Akzent, scharfe Ecken).
+ * @package iab
+ */
+body.iab-promo-locked { overflow: hidden; }
+
+.iab-promo {
+	position: fixed; inset: 0; z-index: 1300;
+	display: flex; align-items: center; justify-content: center;
+	padding: var(--sp-4);
+}
+.iab-promo[hidden] { display: none; }
+
+.iab-promo::before {
+	content: ''; position: absolute; inset: 0;
+	background: rgba(8, 12, 16, .55); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+	opacity: 0; transition: opacity .35s ease;
+}
+.iab-promo.is-open::before { opacity: 1; }
+
+.iab-promo__dialog {
+	position: relative; z-index: 1; width: min(100%, 720px);
+	display: grid; grid-template-columns: 1.05fr 1fr;
+	background: var(--c-card); border-radius: var(--radius-lg); overflow: hidden;
+	box-shadow: 0 30px 70px rgba(5, 13, 20, .3);
+	opacity: 0; transform: translateY(18px) scale(.98);
+	transition: opacity .35s cubic-bezier(.16,1,.3,1), transform .35s cubic-bezier(.16,1,.3,1);
+}
+.iab-promo.is-open .iab-promo__dialog { opacity: 1; transform: translateY(0) scale(1); }
+
+.iab-promo__media { position: relative; min-height: 260px; background: var(--c-bg-alt); }
+.iab-promo__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.iab-promo__grip { display: none; }
+
+.iab-promo__close {
+	position: absolute; top: 14px; right: 14px; z-index: 2;
+	width: 36px; height: 36px; border-radius: 50%; border: 0; cursor: pointer;
+	display: grid; place-items: center; background: var(--c-card); color: var(--c-ink);
+	box-shadow: 0 6px 16px rgba(5,13,20,.18);
+}
+.iab-promo__close:hover, .iab-promo__close:focus-visible { background: var(--c-bg-alt); outline: none; }
+
+.iab-promo__body { padding: var(--sp-7) var(--sp-6); display: flex; flex-direction: column; justify-content: center; }
+.iab-promo__body .iab-eyebrow { margin-bottom: var(--sp-3); }
+.iab-promo__body h3 {
+	font-family: var(--font-display); font-weight: var(--fw-medium); color: var(--c-ink);
+	font-size: var(--text-xl); line-height: var(--lh-tight); margin: 0 0 var(--sp-3);
+}
+.iab-promo__body p { color: var(--c-ink-soft); line-height: var(--lh-body); margin: 0 0 var(--sp-5); }
+.iab-promo__body .iab-btn { justify-content: center; }
+
+@media (max-width: 640px) {
+	.iab-promo { padding: 0; align-items: flex-end; }
+	.iab-promo__dialog {
+		grid-template-columns: 1fr; width: 100%; max-height: 90vh; overflow-y: auto;
+		border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+		transform: translateY(100%);
+	}
+	.iab-promo.is-open .iab-promo__dialog { transform: translateY(0); }
+	.iab-promo__media { min-height: 200px; }
+	.iab-promo__grip {
+		display: block; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+		width: 36px; height: 4px; border-radius: var(--radius-pill); background: rgba(255,255,255,.85); z-index: 2;
+	}
+	.iab-promo__body { padding: var(--sp-5) var(--sp-5) var(--sp-6); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.iab-promo__dialog, .iab-promo::before { transition: opacity .2s ease !important; transform: none !important; }
+}
