@@ -38,6 +38,31 @@
 .iab-hero--media .iab-btn--secondary { color: #fff; border-color: rgba(255,255,255,.6); }
 .iab-hero--media .iab-btn--secondary:hover { background: rgba(255,255,255,.14); border-color: #fff; color: #fff; }
 
+/* Runda 17 (2026-09-25) — wariant „brand": jednolite navy tło + biały tekst (PDF klienta:
+   "biały napis na niebieskim tle"). Zdjęcie/mesh wyłączone, overlay tylko delikatny blik.
+   Secondary button i trust-row jak w wariancie --media (biały na ciemnym). */
+.iab-hero--brand .iab-hero__media { background: var(--c-brand); background-image: none; }
+.iab-hero--brand .iab-hero__overlay { background: radial-gradient(120% 90% at 85% 10%, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 55%); }
+.iab-hero--brand .iab-hero__title, .iab-hero--brand .iab-hero__lead, .iab-hero--brand .iab-hero__proof, .iab-hero--brand .iab-eyebrow { color: #fff; }
+.iab-hero--brand .iab-hero__subtitle { color: #fff; }
+.iab-hero--brand .iab-hero__rating-sub, .iab-hero--brand .iab-hero__proof-note { color: #fff; opacity: .9; }
+.iab-hero--brand .iab-hero__proof-note .iab-ico { color: #fff; }
+.iab-hero--brand .iab-hero__proof-sep { background: rgba(255,255,255,.35); }
+.iab-hero--brand .iab-hero__proof { border-top-color: rgba(255,255,255,.25); }
+.iab-hero--brand .iab-btn--primary { background: #fff; color: var(--c-brand); border-color: #fff; }
+.iab-hero--brand .iab-btn--primary:hover { background: var(--c-brand-soft); border-color: var(--c-brand-soft); color: var(--c-brand); }
+.iab-hero--brand .iab-btn--secondary { color: #fff; border-color: rgba(255,255,255,.6); }
+.iab-hero--brand .iab-btn--secondary:hover { background: rgba(255,255,255,.14); border-color: #fff; color: #fff; }
+.iab-hero--brand .iab-hero__scroll { border-color: rgba(255,255,255,.5); }
+.iab-hero--brand .iab-hero__scroll span { background: #fff; }
+.iab-hero--brand .iab-hero__copy { max-width: 860px; }
+.iab-hero--brand .iab-hero__lead { max-width: 62ch; }
+.iab-hero--brand .iab-hero__title { margin-bottom: var(--sp-3); }
+/* Podtytuł „Status firmy" pod H1 (hero.subtitle) */
+.iab-hero__subtitle { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 500; color: var(--c-brand-ink); margin: 0 0 var(--sp-3); }
+/* Runda 17 — dłuższy akapit pod „Komplettsanierung" w sekcji oferty */
+.iab-section-head .iab-offer-lead { max-width: 70ch; }
+
 .iab-hero__inner { width: 100%; padding-block: var(--sp-8); }
 .iab-hero__copy { max-width: 720px; }
 .iab-hero__title { font-size: var(--text-2xl); margin: var(--sp-2) 0 var(--sp-4); }
@@ -604,3 +629,11 @@ body.iab-lightbox-open .iab-fab { display: none; } /* lightbox jest ponad wszyst
 
 /* ── Podtytuł strony usługi (single-usluga.php) ── */
 .iab-usluga-subtitle { font-size: var(--text-lg); color: var(--c-ink-soft); max-width: 56ch; margin-top: var(--sp-3); }
+
+/* Runda 17 — Über uns: trzy filary pod tekstem "Geschichte" (PDF klienta) */
+.iab-about-pillars { list-style: none; margin: var(--sp-5) 0 0; padding: 0; border-top: 1px solid var(--c-line); }
+.iab-about-pillars li { display: grid; gap: 4px; padding: var(--sp-4) 0; border-bottom: 1px solid var(--c-line); }
+.iab-about-pillars strong { font-size: var(--text-base); color: var(--c-ink); }
+.iab-about-pillars span { font-size: var(--text-sm); color: var(--c-ink-soft); max-width: 52ch; }
+/* Runda 17 — 5 kart "Gründe" na Über uns: 3+2 zamiast 4+1 (sierota w drugim rzędzie) */
+@media (min-width: 1025px) { .iab-grid--werte { grid-template-columns: repeat(3, 1fr); } }
