@@ -637,3 +637,8 @@ body.iab-lightbox-open .iab-fab { display: none; } /* lightbox jest ponad wszyst
 .iab-about-pillars span { font-size: var(--text-sm); color: var(--c-ink-soft); max-width: 52ch; }
 /* Runda 17 — 5 kart "Gründe" na Über uns: 3+2 zamiast 4+1 (sierota w drugim rzędzie) */
 @media (min-width: 1025px) { .iab-grid--werte { grid-template-columns: repeat(3, 1fr); } }
+/* Runda 17(3) — /leistungen/: pełne opisy usług z PDF klienta (bez 14-słowowego skrótu) */
+.iab-media-card__desc--full { display: block; -webkit-line-clamp: unset; overflow: visible; }
+/* Dłuższy opis = więcej białego tekstu na jasnych zdjęciach (Energetische Sanierung, Fenstermontage):
+   mocniejszy scrim od góry, żeby 4-5 linii pozostało czytelne (WCAG AA). */
+.iab-media-card:has(.iab-media-card__desc--full)::after { background: linear-gradient(180deg, rgba(10,12,20,.15) 0%, rgba(10,12,20,.55) 35%, rgba(10,12,20,.88) 100%); }
