@@ -3,27 +3,25 @@
  * Synchronicznie w <head> (jak critical-reveal.js), bez zależności od modułów ES - kurtyna nie może zawisnąć,
  * gdy któryś moduł się nie wczyta. Każdy stan ma też bezpiecznik w CSS (animacja sama chowa kurtynę).
  *  - pierwsze wejście w sesji: html.iab-intro (pełna sekwencja z logo, ~1,1 s)
- *  - kolejne strony: przeglądarki z View Transitions robią przejście same (CSS @view-transition);
- *    pozostałe: html.iab-enter (kurtyna odjeżdża w górę) + przy kliknięciu html.iab-leave (kurtyna zasuwa się).
+ *  - każda kolejna strona: html.iab-load (krótszy loader z logo, ~0,8 s); przy kliknięciu linku
+ *    html.iab-leave (kurtyna z logo zasuwa się), więc przejście wygląda jak jeden ruch (runda 20).
  *  - prefers-reduced-motion: nic z tego.
  */
 (function () {
 	var d = document.documentElement;
 	if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
-	var vt = 'CSSViewTransitionRule' in window;
 	var first = true;
 	try { first = !sessionStorage.getItem('iab-seen'); sessionStorage.setItem('iab-seen', '1'); } catch (e) {}
-	var mode = first ? 'iab-intro' : (vt ? '' : 'iab-enter');
-	if (mode) { d.classList.add(mode); }
+	d.classList.add(first ? 'iab-intro' : 'iab-load');
 	// Pierwsze wejście: baner zgody cookies czeka, aż skończy się intro (inaczej rozmywa cały efekt).
 	if (first) { d.classList.add('iab-hold-consent'); setTimeout(function () { d.classList.remove('iab-hold-consent'); }, 2600); }
-	var done = function () { d.classList.remove('iab-intro', 'iab-enter', 'iab-leave'); d.classList.add('iab-ready'); };
-	setTimeout(done, first ? 3200 : 900);
+	var done = function () { d.classList.remove('iab-intro', 'iab-load', 'iab-leave'); d.classList.add('iab-ready'); };
+	setTimeout(done, first ? 3200 : 1600);
 
 	// Powrót przyciskiem wstecz (bfcache): bez kurtyny, strona od razu widoczna.
 	addEventListener('pageshow', function (e) { if (e.persisted) { done(); } });
 
-	// Pasek postępu u góry przy każdej nawigacji wewnętrznej + kurtyna dla przeglądarek bez View Transitions.
+	// Kliknięcie linku wewnętrznego: pasek postępu + kurtyna z logo zasuwa się, potem nawigacja.
 	document.addEventListener('click', function (e) {
 		var a = e.target.closest && e.target.closest('a[href]');
 		if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) { return; }
@@ -34,7 +32,6 @@
 		if (url.origin !== location.origin || (url.pathname === location.pathname && url.search === location.search)) { return; }
 		if (/\.(pdf|jpe?g|png|webp|zip)$/i.test(url.pathname) || /wp-admin|wp-login/.test(url.pathname)) { return; }
 		d.classList.add('iab-navigating');
-		if (vt) { return; }
 		e.preventDefault();
 		d.classList.add('iab-leave');
 		setTimeout(function () { location.href = url.href; }, 320);
