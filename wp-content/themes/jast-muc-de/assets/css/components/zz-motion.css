@@ -1,0 +1,137 @@
+/**
+ * Runda 19 (2026-10-15): ruch, loader marki, przejścia stron.
+ * Prompt z panelem specjalistów: _design/PROMPT-motion-runda19-2026-10-15.md.
+ * Zasady (skill web-animation-motion): tylko transform / opacity / clip-path, bez JS i przy
+ * prefers-reduced-motion treść widoczna od razu, bez parallaxu i pętli.
+ */
+
+:root {
+	--m-ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* wejścia (ease-out-expo) */
+	--m-ease-io:  cubic-bezier(0.65, 0, 0.35, 1);  /* kurtyna */
+	--m-intro:    900ms;                           /* opóźnienie treści po kurtynie przy pierwszym wejściu */
+}
+
+/* ── Kurtyna (loader + przejścia bez View Transitions) ── */
+.iab-curtain {
+	position: fixed; inset: 0; z-index: 9999; display: none;
+	flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-5);
+	background: var(--c-navy-900);
+}
+.iab-curtain__logo { width: 160px; height: 160px; object-fit: contain; border-radius: 50%; background: #fff; padding: 12px; }
+.iab-curtain__line { width: 160px; height: 2px; background: var(--c-navy-accent); transform-origin: left center; }
+
+/* Pierwsze wejście w sesji: logo wyostrza się, linia rysuje się, kurtyna odjeżdża w górę. */
+.iab-intro .iab-curtain { display: flex; animation: iab-curtain-up 420ms var(--m-ease-io) 760ms both; }
+.iab-intro .iab-curtain__logo { animation: iab-logo-in 560ms var(--m-ease-out) both; }
+.iab-intro .iab-curtain__line { animation: iab-line-draw 560ms var(--m-ease-out) 180ms both; }
+/* Kolejna strona bez View Transitions: kurtyna odjeżdża od razu. */
+.iab-enter .iab-curtain { display: flex; animation: iab-curtain-up 420ms var(--m-ease-io) 60ms both; }
+.iab-enter .iab-curtain__logo, .iab-enter .iab-curtain__line { opacity: 0; }
+/* Kliknięcie linku bez View Transitions: kurtyna zasuwa się od dołu. */
+.iab-leave .iab-curtain { display: flex; animation: iab-curtain-down 320ms var(--m-ease-io) both; }
+.iab-leave .iab-curtain__logo { animation: iab-logo-in 320ms var(--m-ease-out) both; }
+.iab-leave .iab-curtain__line { opacity: 0; }
+
+@keyframes iab-logo-in { from { opacity: 0; scale: 88%; filter: blur(8px); } to { opacity: 1; scale: 100%; filter: blur(0); } }
+@keyframes iab-line-draw { from { scale: 0% 100%; } to { scale: 100% 100%; } }
+@keyframes iab-curtain-up { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
+@keyframes iab-curtain-down { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* Pasek postępu u góry po kliknięciu linku (każda przeglądarka). */
+.iab-navbar-progress {
+	position: fixed; top: 0; left: 0; right: 0; z-index: 10000; height: 3px;
+	background: var(--c-navy-accent); transform-origin: left center; scale: 0% 100%; opacity: 0; pointer-events: none;
+}
+.iab-navigating .iab-navbar-progress { opacity: 1; animation: iab-progress 1600ms var(--m-ease-out) forwards; }
+@keyframes iab-progress { from { scale: 0% 100%; } to { scale: 85% 100%; } }
+
+/* ── Przejścia stron: cross-document View Transitions (Chromium, Safari 18.2+) ── */
+@view-transition { navigation: auto; }
+.iab-topbar { view-transition-name: iab-topbar; }
+.iab-header { view-transition-name: iab-header; }
+::view-transition-old(root) { animation: 280ms var(--m-ease-io) both iab-vt-out; }
+::view-transition-new(root) { animation: 520ms var(--m-ease-out) 60ms both iab-vt-in; }
+@keyframes iab-vt-out { to { opacity: 0; translate: 0 -24px; } }
+@keyframes iab-vt-in { from { opacity: 0; translate: 0 40px; } }
+
+/* ── Hero: wejście po kolei, słowa tytułu z maski, rysujące się podkreślenia ── */
+.iab-hero__mark {
+	text-decoration: none;
+	background-image: linear-gradient(var(--c-navy-accent), var(--c-navy-accent));
+	background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 4px; padding-bottom: 4px;
+}
+.iab-hw { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 8px; margin-bottom: -8px; }
+.iab-hw > span { display: inline-block; }
+
+@media (prefers-reduced-motion: no-preference) {
+	.iab-js .iab-hero--navy .iab-hero__pill,
+	.iab-js .iab-hero--navy .iab-hero__quote,
+	.iab-js .iab-hero--navy .iab-hero__checks li,
+	.iab-js .iab-hero--navy .iab-hero__cta .iab-btn { animation: iab-rise 720ms var(--m-ease-out) both; }
+	.iab-js .iab-hero--navy .iab-hero__pill { animation-delay: calc(var(--d0, 0ms) + 0ms); }
+	.iab-js .iab-hero--navy .iab-hw > span { animation: iab-word-up 760ms var(--m-ease-out) both; animation-delay: calc(var(--d0, 0ms) + 120ms + var(--wi, 0) * 40ms); }
+	.iab-js .iab-hero--navy .iab-hero__mark { background-size: 0% 4px; animation: iab-underline 720ms var(--m-ease-out) both; animation-delay: calc(var(--d0, 0ms) + 640ms); }
+	.iab-js .iab-hero--navy .iab-hero__quote { animation-delay: calc(var(--d0, 0ms) + 520ms); }
+	.iab-js .iab-hero--navy .iab-hero__checks li:nth-child(1) { animation-delay: calc(var(--d0, 0ms) + 640ms); }
+	.iab-js .iab-hero--navy .iab-hero__checks li:nth-child(2) { animation-delay: calc(var(--d0, 0ms) + 700ms); }
+	.iab-js .iab-hero--navy .iab-hero__checks li:nth-child(3) { animation-delay: calc(var(--d0, 0ms) + 760ms); }
+	.iab-js .iab-hero--navy .iab-hero__cta .iab-btn:nth-child(1) { animation-delay: calc(var(--d0, 0ms) + 840ms); }
+	.iab-js .iab-hero--navy .iab-hero__cta .iab-btn:nth-child(2) { animation-delay: calc(var(--d0, 0ms) + 900ms); }
+	.iab-intro .iab-hero--navy, .iab-intro .iab-subhero { --d0: var(--m-intro); }
+
+	/* Nagłówki podstron: ten sam język ruchu. */
+	.iab-js .iab-subhero__inner > *, .iab-js .iab-art-hero__inner > * { animation: iab-rise 640ms var(--m-ease-out) both; }
+	.iab-js .iab-subhero__inner > *:nth-child(2), .iab-js .iab-art-hero__inner > *:nth-child(2) { animation-delay: calc(var(--d0, 0ms) + 80ms); }
+	.iab-js .iab-subhero__inner > *:nth-child(3), .iab-js .iab-art-hero__inner > *:nth-child(3) { animation-delay: calc(var(--d0, 0ms) + 160ms); }
+	.iab-js .iab-subhero__inner > *:nth-child(n+4), .iab-js .iab-art-hero__inner > *:nth-child(n+4) { animation-delay: calc(var(--d0, 0ms) + 240ms); }
+}
+@keyframes iab-rise { from { opacity: 0; translate: 0 24px; } }
+@keyframes iab-word-up { from { translate: 0 110%; } }
+@keyframes iab-underline { to { background-size: 100% 4px; } }
+
+/* ── Sekcje: płynniejsze wejście kart, poświata i wypełnienie ikon na hover ── */
+.iab-svc-card__link { transition: border-color 240ms var(--m-ease-out), translate 240ms var(--m-ease-out), box-shadow 240ms var(--m-ease-out); }
+.iab-svc-card__link:hover { transform: none; translate: 0 -4px; box-shadow: 0 16px 40px -16px #9fd0f066; }
+.iab-svc-card__icon { transition: background-color 240ms var(--m-ease-out), color 240ms var(--m-ease-out), scale 240ms var(--m-ease-out); }
+.iab-svc-card__link:hover .iab-svc-card__icon { background: var(--c-navy-accent); color: var(--c-navy-900); scale: 108%; }
+.iab-svc-card__more .iab-ico, .iab-btn .iab-ico, .iab-navy__link .iab-ico { transition: translate 200ms var(--m-ease-out); }
+.iab-svc-card__link:hover .iab-svc-card__more .iab-ico, .iab-btn:hover .iab-ico, .iab-navy__link:hover .iab-ico { translate: 4px 0; }
+.iab-vorteile__item, .iab-steps5__item { transition: translate 240ms var(--m-ease-out), box-shadow 240ms var(--m-ease-out); }
+.iab-vorteile__item:hover, .iab-steps5__item:hover { translate: 0 -4px; box-shadow: 0 16px 32px -20px #07456f66; }
+
+@media (prefers-reduced-motion: no-preference) {
+	.iab-js .iab-reveal { transition-duration: 720ms; transition-timing-function: var(--m-ease-out); }
+}
+
+/* ── 5 kroków: linia rysuje się przy przewijaniu (scroll-driven, tylko gdzie wspierane) ── */
+.iab-steps5__list { position: relative; }
+@media (min-width: 1101px) and (prefers-reduced-motion: no-preference) {
+	@supports (animation-timeline: view()) {
+		.iab-steps5__list::before {
+			content: ""; position: absolute; left: 0; right: 0; top: -24px; height: 2px;
+			background: var(--c-brand); transform-origin: left center;
+			animation: iab-line-draw linear both; animation-timeline: view(); animation-range: entry 20% cover 45%;
+		}
+	}
+}
+
+/* ── Logo w nagłówku większe (czytelny emblemat), mniejsze po przewinięciu ── */
+:root { --header-h: 88px; }
+.iab-header__brand img, .iab-header__logo { max-height: 64px; height: 64px; width: auto; transition: max-height 240ms var(--m-ease-out), height 240ms var(--m-ease-out); }
+.iab-header.is-scrolled .iab-header__brand img, .iab-header.is-scrolled .iab-header__logo { max-height: 48px; height: 48px; }
+@media (max-width: 860px) {
+	:root { --header-h: 68px; }
+	.iab-header__brand img, .iab-header__logo { max-height: 52px; height: 52px; }
+	.iab-header.is-scrolled .iab-header__brand img, .iab-header.is-scrolled .iab-header__logo { max-height: 44px; height: 44px; }
+}
+
+/* Baner zgody cookies pokazuje się po intro (pierwsze wejście), płynnie. */
+.cky-consent-container { transition: opacity 400ms var(--m-ease-out), visibility 0ms linear 0ms; }
+.iab-hold-consent .cky-consent-container { opacity: 0 !important; visibility: hidden !important; transition: none; }
+
+/* ── Bez ruchu: kurtyna, przejścia i animacje wyłączone ── */
+@media (prefers-reduced-motion: reduce) {
+	@view-transition { navigation: none; }
+	.iab-curtain, .iab-navbar-progress { display: none !important; }
+	.iab-hero__mark { background-size: 100% 4px; }
+}
