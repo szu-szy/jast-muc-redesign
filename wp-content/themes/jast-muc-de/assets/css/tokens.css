@@ -13,7 +13,16 @@
 	--c-brand-hover:  #053556;   /* ciemniejszy navy (hover na jasnym tle) */
 	--c-brand-deep:   #052538;   /* najciemniejszy navy — dark sekcje (CTA/stopka) */
 	--c-brand-soft:   #e8edf1;   /* jasny navy tint — tła/badge na jasnym tle */
-	--c-brand-ink:    #07456f;   /* akcent tekstowy na jasnym tle — ciemny navy, ~8:1 */
+	--c-brand-ink:    #07456f;
+	/* Runda 18 (2026-10-15): granatowe sekcje wg zrzutów klienta (tło w barwach logo, bez zdjęć). */
+	--c-navy-900:     #052538;   /* tło sekcji granatowych (= --c-brand-deep) */
+	--c-navy-800:     #08324f;   /* karty na granacie */
+	--c-navy-line:    #1d5076;   /* linie i obramowania na granacie */
+	--c-on-navy:      #ffffff;   /* tekst główny na granacie */
+	--c-on-navy-soft: #c9dcea;   /* tekst pomocniczy na granacie, ~11:1 na #052538 */
+	--c-navy-accent:  #9fd0f0;   /* jasny niebieski akcent z logo: ikony, podkreślenia, ~9:1 na #052538 */
+	--c-on-navy-faint:#8fb0c8;   /* podpowiedzi w polach na granacie, ~7:1 na #052538 */
+   /* akcent tekstowy na jasnym tle — ciemny navy, ~8:1 */
 	--c-ink:          #16181b;   /* tekst główny — ciepła prawie-czerń (nie #000) */
 	--c-ink-soft:     #52565c;   /* tekst drugorzędny */
 	--c-muted:        #74787e;   /* opisy/meta */
