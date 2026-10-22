@@ -1,0 +1,132 @@
+/**
+ * Runda 23 (2026-10-22) - strona główna bez nadmiaru kafelków + nowa ikona telefonu.
+ * User: „za dużo tych kafelków na głównej, dopracuj to, strona główna to strona główna”.
+ * Ładowany po zz-unify.css (sort alfabetyczny). Zasada: linie i typografia zamiast pudełek.
+ *  1. Leistungen: spis usług z liniami + zdjęcie z realizacji (offer-cards.php)
+ *  2. Über JAST: tekst + zdjęcie, bez karty (ueber-jast.php)
+ *  3. Ablauf: oś czasu z punktami zamiast 5 kart
+ *  4. Vorteile: lista z liniami na granacie zamiast 5 kart
+ *  5. Pływający telefon (FAB) i przycisk telefonu w pasku mobilnym
+ *  6. Karty usług (/leistungen/): bez punktów (niepotwierdzone obietnice)
+ */
+
+/* ── 1. Leistungen: spis usług ── */
+.iab-svc-index__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: start; }
+.iab-svc-index__aside { position: sticky; top: 128px; }
+.iab-svc-index__aside h2 { margin: 12px 0 16px; }
+.iab-svc-index__lead { margin: 0 0 32px; color: var(--c-ink-soft); font-size: 20px !important; line-height: 32px !important; }
+.iab-svc-index__photo { margin: 48px 0 0; border-radius: 4px; overflow: hidden; aspect-ratio: 4 / 3; }
+.iab-svc-index__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.iab-svc-index__list { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--c-line); }
+.iab-svc-index__row {
+	display: grid; grid-template-columns: 48px minmax(0, 1fr) 40px; gap: 16px; align-items: center;
+	padding: 24px 16px 24px 0; border-top: 1px solid var(--c-line); color: var(--c-ink); text-decoration: none;
+	transition: background-color 240ms ease, padding 240ms ease;
+}
+.iab-svc-index__num { align-self: start; padding-top: 4px; font-size: 14px; line-height: 20px; font-weight: 700; color: var(--c-brand); }
+.iab-svc-index__body { display: block; min-width: 0; }
+.iab-svc-index__title { display: block; font-size: 20px; line-height: 28px; font-weight: 600; color: var(--c-ink); }
+.iab-svc-index__desc { display: block; margin-top: 4px; font-size: 16px; line-height: 24px; color: var(--c-ink-soft); }
+.iab-svc-index__arrow {
+	width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%;
+	border: 1px solid var(--c-line-strong); color: var(--c-brand);
+	transition: background-color 240ms ease, color 240ms ease, border-color 240ms ease, transform 240ms ease;
+}
+.iab-svc-index__row:hover, .iab-svc-index__row:focus-visible { background: #f2f7fb; padding-left: 16px; }
+.iab-svc-index__row:hover .iab-svc-index__arrow, .iab-svc-index__row:focus-visible .iab-svc-index__arrow { background: var(--c-brand); border-color: var(--c-brand); color: #ffffff; transform: translateX(4px); }
+@media (max-width: 960px) {
+	.iab-svc-index__grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+	.iab-svc-index__aside { position: static; }
+	.iab-svc-index__photo { display: none; }
+}
+@media (max-width: 600px) {
+	.iab-svc-index__row { grid-template-columns: 32px minmax(0, 1fr) 32px; gap: 12px; padding: 20px 0; }
+	.iab-svc-index__row:hover, .iab-svc-index__row:focus-visible { padding-left: 0; background: none; }
+	.iab-svc-index__arrow { width: 32px; height: 32px; }
+	.iab-svc-index__title { font-size: 18px; line-height: 24px; }
+	.iab-svc-index__desc { font-size: 14px; line-height: 24px; }
+	.iab-svc-index__lead { font-size: 16px !important; line-height: 28px !important; }
+}
+
+/* ── 2. Über JAST: tekst + zdjęcie ── */
+.iab-ueber__grid { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 80px; }
+.iab-ueber__points { margin: 32px 0; padding: 0; list-style: none; }
+.iab-ueber__points li { display: flex; gap: 12px; color: #ffffff; font-size: 16px; line-height: 24px; }
+.iab-ueber__points li + li { margin-top: 16px; }
+.iab-ueber__points .iab-ico { width: 20px; height: 20px; flex: none; margin-top: 2px; color: var(--c-navy-accent); }
+.iab-ueber__points strong { font-weight: 600; }
+.iab-ueber__actions { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+.iab-ueber__photo { margin: 0; }
+.iab-ueber__photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 4px; }
+.iab-ueber__photo figcaption { margin-top: 12px; font-size: 14px; line-height: 20px; color: #ffffff; }
+@media (max-width: 960px) {
+	.iab-ueber__grid { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+	.iab-ueber__photo img { aspect-ratio: 4 / 3; }
+}
+
+/* ── 3. Ablauf: oś czasu ── */
+.iab-steps5__list { gap: 32px; margin-top: 16px; }
+.iab-steps5__list::after { content: ""; position: absolute; left: 0; right: 0; top: 8px; height: 2px; background: var(--c-line); z-index: 0; }
+.iab-steps5__list::before { top: 8px !important; z-index: 1; }
+.iab-steps5__item, .iab-steps5__item:hover { position: relative; z-index: 2; padding: 40px 0 0; background: none; border: 0; border-radius: 0; box-shadow: none; translate: none; }
+.iab-steps5__item::before {
+	content: ""; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 50%;
+	background: #ffffff; border: 4px solid var(--c-brand); box-sizing: border-box;
+}
+.iab-steps5__num { margin-bottom: 8px; font-size: 14px !important; line-height: 20px !important; font-weight: 700; color: var(--c-brand); }
+.iab-steps5__item h3 { margin-bottom: 8px; font-size: 20px !important; line-height: 28px !important; }
+.iab-steps5__item p { font-size: 16px !important; line-height: 24px !important; color: var(--c-ink-soft); }
+@media (max-width: 1100px) {
+	.iab-steps5__list { grid-template-columns: minmax(0, 1fr); gap: 0; padding-left: 40px; }
+	.iab-steps5__list::after { left: 9px; right: auto; top: 8px; bottom: 8px; width: 2px; height: auto; }
+	.iab-steps5__item, .iab-steps5__item:hover { padding: 0 0 32px; }
+	.iab-steps5__item::before { left: -40px; top: 4px; }
+}
+
+/* ── 4. Vorteile: lista z liniami na granacie ── */
+.iab-vorteile__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 48px; }
+.iab-navy .iab-vorteile__item, .iab-vorteile__item, .iab-vorteile__item:nth-child(4), .iab-vorteile__item:hover {
+	grid-column: span 2; padding: 24px 0 0; background: none; border: 0; border-top: 1px solid var(--c-navy-line);
+	border-radius: 0; box-shadow: none; translate: none;
+}
+.iab-navy .iab-vorteile__icon, .iab-vorteile__icon { width: auto; height: auto; margin: 0 0 16px; background: none; color: var(--c-navy-accent); border-radius: 0; }
+.iab-vorteile__icon .iab-ico { width: 28px; height: 28px; }
+.iab-vorteile__item:nth-child(4) { grid-column: 2 / span 2; } /* 3 + 2 wyśrodkowane */
+.iab-vorteile__item h3 { margin-bottom: 8px; }
+.iab-navy .iab-vorteile__item p { font-size: 16px !important; line-height: 28px !important; }
+@media (max-width: 960px) { .iab-vorteile__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 32px; } .iab-vorteile__item, .iab-vorteile__item:nth-child(4) { grid-column: auto !important; } }
+@media (max-width: 640px) { .iab-vorteile__grid { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+
+/* ── 5. Telefon: pływający przycisk ── */
+.iab-fab {
+	display: flex; right: 24px; bottom: 24px; width: 64px; height: 64px;
+	background: var(--c-brand); color: #ffffff; border: 0;
+	box-shadow: 0 0 0 4px #ffffff, 0 16px 32px -8px #07456f80;
+	transition: transform 240ms ease, background-color 240ms ease;
+}
+.iab-fab .iab-ico { width: 28px; height: 28px; }
+.iab-fab::before {
+	content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--c-brand);
+	animation: iab-fab-ring 2400ms ease-out infinite; pointer-events: none;
+}
+.iab-fab__label {
+	position: absolute; right: 80px; top: 50%; translate: 0 -50%; white-space: nowrap;
+	padding: 8px 16px; border-radius: 4px; background: var(--c-brand); color: #ffffff;
+	font-size: 14px; line-height: 20px; font-weight: 600;
+	opacity: 0; pointer-events: none; transition: opacity 240ms ease, translate 240ms ease;
+}
+.iab-fab:hover, .iab-fab:focus-visible { background: #053556; color: #ffffff; transform: scale(1.04); }
+.iab-fab:hover .iab-fab__label, .iab-fab:focus-visible .iab-fab__label { opacity: 1; translate: -4px -50%; }
+@keyframes iab-fab-ring { 0% { transform: scale(1); opacity: 1; } 80%, 100% { transform: scale(1.4); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .iab-fab::before { animation: none; opacity: 0; } }
+@media (max-width: 720px) {
+	.iab-fab { right: 16px; bottom: 16px; width: 56px; height: 56px; }
+	.iab-fab .iab-ico { width: 24px; height: 24px; }
+	.iab-fab__label { display: none; }
+}
+/* Na podstronach usług ≤1024 px pasek mobilny przejmuje telefon (sections.css). */
+.iab-mobar__call { background: var(--c-brand) !important; color: #ffffff !important; border-color: var(--c-brand) !important; }
+.iab-mobar__call .iab-ico { width: 22px; height: 22px; }
+
+/* ── 6. Karty usług na /leistungen/: tytuł, zdanie, link (bez punktów) ── */
+.iab-svc-card__points { display: none; }

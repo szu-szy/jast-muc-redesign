@@ -38,7 +38,7 @@
 .iab-footer__top { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1.2fr; gap: var(--sp-7); padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: var(--sp-7); }
 .iab-footer__brand-link { display: inline-flex; align-items: center; gap: var(--sp-3); }
 .iab-footer__brand { color: var(--c-on-brand); font-family: var(--font-display); font-size: var(--text-xl); font-weight: 400; }
-.iab-footer__logo { max-height: 52px; width: auto; }
+.iab-footer__logo { display: block; height: 112px; width: auto; max-width: none; } /* runda 23: ostra biała wersja 652 px */
 .iab-footer__desc { margin-top: var(--sp-4); color: color-mix(in srgb, var(--c-on-brand) 58%, var(--c-brand-deep)); max-width: 34ch; font-size: var(--text-sm); line-height: 1.6; }
 .iab-footer__social { display: flex; gap: var(--sp-3); margin-top: var(--sp-5); }
 .iab-footer__social a { display: inline-flex; width: 40px; height: 40px; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--c-on-brand) 20%, transparent); border-radius: 50%; color: color-mix(in srgb, var(--c-on-brand) 85%, var(--c-brand-deep)); }
