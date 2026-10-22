@@ -130,3 +130,46 @@
 
 /* ── 6. Karty usług na /leistungen/: tytuł, zdanie, link (bez punktów) ── */
 .iab-svc-card__points { display: none; }
+
+/* ── 7. Hero strony głównej: pełny kontener, dwie kolumny + pas faktów (runda 24) ──
+   Zastępuje wąską wyśrodkowaną kolumnę z r21 (zz-unify sekcja 3). */
+.iab-hero--split { padding-block: 96px 0 !important; }
+.iab-hero__split { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 80px; align-items: end; }
+.iab-hero--split .iab-hero__main { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.iab-hero--split .iab-hero__pill { margin-bottom: 32px; }
+.iab-hero--split .iab-hero__title { max-width: none; margin: 0 0 40px; font-size: 56px !important; line-height: 64px !important; text-wrap: balance; }
+.iab-hero--split .iab-hero__cta { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 16px; }
+.iab-hero--split .iab-hero__intro { max-width: none; margin: 0; padding-bottom: 4px; }
+.iab-hero--split .iab-hero__intro p { margin: 0; padding: 20px 0; border-top: 1px solid var(--c-navy-line); font-size: 18px !important; line-height: 28px !important; }
+.iab-hero--split .iab-hero__intro p + p { margin: 0; }
+.iab-hero--split .iab-hero__intro p:first-child { padding-top: 0; border-top: 0; font-size: 20px !important; line-height: 32px !important; font-weight: 600; }
+.iab-hero__facts {
+	display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 80px 0 0; padding: 0; list-style: none;
+	border-top: 1px solid var(--c-navy-line);
+}
+.iab-hero__facts li { display: flex; align-items: center; gap: 12px; padding: 28px 24px; font-size: 16px; line-height: 24px; font-weight: 600; color: #ffffff; }
+.iab-hero__facts li:first-child { padding-left: 0; }
+.iab-hero__facts li + li { border-left: 1px solid var(--c-navy-line); }
+.iab-hero__facts .iab-ico { width: 20px; height: 20px; flex: none; color: var(--c-navy-accent); }
+@media (max-width: 1100px) {
+	.iab-hero__split { grid-template-columns: minmax(0, 1fr); gap: 0; align-items: start; }
+	.iab-hero--split .iab-hero__main { display: contents; } /* kolejność: plakietka, H1, 3 linie, przyciski */
+	.iab-hero--split .iab-hero__pill { order: 1; justify-self: start; }
+	.iab-hero--split .iab-hero__title { order: 2; }
+	.iab-hero--split .iab-hero__intro { order: 3; margin-bottom: 40px; }
+	.iab-hero--split .iab-hero__cta { order: 4; }
+	.iab-hero--split .iab-hero__title { font-size: 48px !important; line-height: 56px !important; }
+	.iab-hero__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 64px; }
+	.iab-hero__facts li:nth-child(3) { border-left: 0; padding-left: 0; }
+	.iab-hero__facts li:nth-child(n+3) { border-top: 1px solid var(--c-navy-line); }
+}
+@media (max-width: 720px) {
+	.iab-hero--split { padding-block: 56px 0 !important; }
+	.iab-hero--split .iab-hero__title { font-size: 32px !important; line-height: 40px !important; margin-bottom: 32px; }
+	.iab-hero--split .iab-hero__intro p { font-size: 16px !important; line-height: 28px !important; padding: 16px 0; }
+	.iab-hero--split .iab-hero__intro p:first-child { font-size: 18px !important; line-height: 28px !important; }
+	.iab-hero--split .iab-hero__cta .iab-btn { width: 100%; justify-content: center; }
+	.iab-hero__facts { grid-template-columns: minmax(0, 1fr); margin-top: 48px; }
+	.iab-hero__facts li, .iab-hero__facts li:first-child, .iab-hero__facts li:nth-child(3), .iab-hero__facts li + li { padding: 16px 0; border-left: 0; }
+	.iab-hero__facts li + li { border-top: 1px solid var(--c-navy-line); }
+}
