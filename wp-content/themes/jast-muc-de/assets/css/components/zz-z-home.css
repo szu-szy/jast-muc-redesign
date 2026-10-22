@@ -189,3 +189,6 @@
 	.iab-hero--split .iab-hero__pill { padding: 8px; gap: 0; }
 	.iab-hero--split .iab-hero__dot { display: none; }
 }
+
+/* ── 8. Bez podkreśleń pod numerami telefonu (klientka, 22.10) ── */
+.iab-final__phone, .iab-cta-band__phone, .iab-art-hero__phone, .iab-subhero__phone, .iab-hero__phone { border-bottom: 0 !important; text-decoration: none !important; background-image: none !important; }
