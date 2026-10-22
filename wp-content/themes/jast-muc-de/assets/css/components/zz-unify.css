@@ -1,0 +1,239 @@
+/**
+ * Runda 21 (2026-10-22, uwagi klientki): JEDEN system dla całej strony.
+ * - tylko granat i biel: sekcja granatowa = białe napisy, sekcja biała = granatowe napisy, zero czerni/szarości,
+ * - jedna czcionka (Manrope, tokens.css),
+ * - jedna skala tekstu i odstępów na wszystkich podstronach (px, wielokrotności 4).
+ * Plik ładowany jako ostatni z components/ (sort alfabetyczny), więc zamyka wcześniejsze rundy.
+ * !important tylko przy rozmiarach/kolorach tekstu - to celowa „blokada systemu", żeby żaden
+ * starszy komponent nie wrócił do własnej wielkości. Brief: _design/PROMPT-runda21-2026-10-22.md
+ */
+
+/* ════ 1. Skala typografii (desktop) ════ */
+body { font-family: var(--font-body); font-size: 16px; line-height: 28px; color: var(--c-ink); background: #ffffff; letter-spacing: 0; word-spacing: normal; }
+h1, h2, h3, h4, .iab-hero__title, .iab-subhero__title, .iab-art-hero__title, .iab-blog-hero__title {
+	font-family: var(--font-body) !important; font-style: normal !important; letter-spacing: 0 !important;
+	text-wrap: balance; hyphens: manual; color: var(--c-ink);
+}
+h1, .iab-hero__title, .iab-hero--navy .iab-hero__title, .iab-subhero__title, .iab-art-hero__title, .iab-blog-hero__title {
+	font-size: 48px !important; line-height: 56px !important; font-weight: 700 !important;
+}
+h2, .iab-section-head h2, .iab-cta-band h2, .iab-usluga-offer__head h2, .iab-prose h2, .iab-art-prose h2 {
+	font-size: 36px !important; line-height: 44px !important; font-weight: 700 !important;
+}
+h3, .iab-prose h3, .iab-art-prose h3, .iab-final__cta h3, .iab-svc-card__title, .iab-vorteile__item h3, .iab-ueber__card-head h3 {
+	font-size: 20px !important; line-height: 28px !important; font-weight: 600 !important;
+}
+h4 { font-size: 16px !important; line-height: 28px !important; font-weight: 600 !important; }
+.iab-steps5__item h3 { font-size: 16px !important; line-height: 24px !important; }
+
+/* Tekst: jeden rozmiar, jedna interlinia, jeden odstęp akapitów */
+main p, main li, main dd, .iab-prose, .iab-accordion__panel p,
+.iab-card p, .iab-svc-card__desc, .iab-vorteile__item p, .iab-steps5__item p, .iab-ueber__text p, .iab-kontakt__info > p {
+	font-size: 16px !important; line-height: 28px !important;
+}
+main p { margin: 0 0 16px; }
+main p:last-child { margin-bottom: 0; }
+.iab-section-head p, .iab-subhero__lead, .iab-subhero p, .iab-art-hero__lead, .iab-hero__intro p, .iab-hero__lead {
+	font-size: 20px !important; line-height: 32px !important;
+}
+/* Małe teksty (meta, formularz, stopka) */
+.iab-topbar, .iab-footer__bottom, .iab-footer__bottom a, .wpcf7-list-item-label, .iab-rodo, .iab-kontakt__privacy,
+.iab-svc-card__points li, .iab-svc-card__more, label, .iab-breadcrumbs, .iab-subhero__crumbs {
+	font-size: 14px !important; line-height: 24px !important;
+}
+.iab-eyebrow {
+	display: block; margin: 0 0 12px; font-size: 12px !important; line-height: 16px !important; font-weight: 700;
+	letter-spacing: 2px; text-transform: uppercase; color: var(--c-brand);
+}
+.iab-section-head { max-width: 760px; margin-bottom: 48px; }
+.iab-section-head h2 { margin: 0; }
+.iab-section-head p { margin: 16px 0 0; max-width: 68ch; }
+.iab-section-head--center p, .iab-section-head--center { margin-inline: auto; }
+h2 + p, h3 + p { margin-top: 16px; }
+.iab-section { padding-block: 96px; }
+
+/* Przyciski: ta sama czcionka i wielkość wszędzie */
+.iab-btn { font-family: var(--font-body) !important; font-size: 16px !important; line-height: 24px !important; font-weight: 600 !important; letter-spacing: 0 !important; }
+.iab-btn--sm { font-size: 14px !important; }
+
+/* Bez kursywy i bez szeryfów nigdzie */
+em, i, blockquote, blockquote p, .iab-ueber__philo em { font-style: normal; }
+.iab-steps5__num, .iab-cta-band__phone, .iab-final__phone, .iab-usluga-offer__faq-label, .iab-footer__brand, .iab-header__title, .iab-mega__card strong {
+	font-family: var(--font-body) !important;
+}
+
+/* ════ 2. Rytm granat / biel ════ */
+.iab-white, .iab-section--alt:not(.iab-navy) { background: #ffffff; color: var(--c-ink); }
+.iab-white h2, .iab-white h3, .iab-white strong { color: var(--c-ink); }
+.iab-white p, .iab-white li { color: var(--c-ink); }
+.iab-white .iab-section-head p { color: var(--c-ink-soft); }
+
+.iab-navy, .iab-hero--navy, .iab-subhero--navy, .iab-art-hero--navy, .iab-cta-band--navy { background: var(--c-navy-900) !important; color: #ffffff; }
+.iab-navy :is(h1, h2, h3, h4, p, li, strong, span, label, dt, dd, figcaption),
+.iab-hero--navy :is(h1, p, li, span), .iab-subhero--navy :is(h1, p, span, a), .iab-art-hero--navy :is(h1, p, span, a) { color: #ffffff; }
+.iab-navy .iab-eyebrow, .iab-hero--navy .iab-eyebrow, .iab-subhero--navy .iab-eyebrow { color: #ffffff !important; }
+.iab-navy .iab-section-head p { color: #ffffff; }
+
+/* Linia rozdzielająca granat z granatem stopki, gdyby wypadły obok siebie */
+.iab-footer { border-top: 0; }
+
+/* ════ 3. Hero strony głównej (bez ramki, trzy osobne linie) ════ */
+.iab-hero--navy { padding-block: 96px 112px; }
+.iab-hero--navy .iab-hero__inner { display: flex; justify-content: center; }
+.iab-hero--navy .iab-hero__copy { max-width: 880px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.iab-hero--navy .iab-hero__title { max-width: 20ch; margin: 0 0 32px; }
+.iab-hero__pill { background: var(--c-navy-800); border-color: var(--c-navy-line); margin-bottom: 24px; font-size: 14px; line-height: 24px; padding: 4px 16px; }
+.iab-hero__intro { max-width: 720px; margin: 0 0 40px; }
+.iab-hero__intro p { margin: 0; color: #ffffff; }
+.iab-hero__intro p + p { margin-top: 16px; }
+.iab-hero__intro p:first-child { font-weight: 600; }
+.iab-hero__quote { display: none; }
+.iab-hero__cta { justify-content: center; gap: 16px; }
+.iab-hero__mark { text-decoration-color: #ffffff; text-decoration-thickness: 2px; text-underline-offset: 8px; }
+
+/* ════ 4. Podstrony: nagłówki granatowe ════ */
+.iab-subhero--navy, .iab-art-hero--navy { padding-block: 80px; }
+.iab-subhero--navy .iab-btn--secondary, .iab-art-hero--navy .iab-btn--secondary { border-color: #ffffff; color: #ffffff; }
+.iab-art-hero--navy .iab-art-hero__phone { border-color: #ffffff; }
+
+/* ════ 5. Karty usług na bieli (strona główna, /leistungen/) ════ */
+.iab-white .iab-svc-card__link { background: #ffffff; border: 1px solid var(--c-line-strong); color: var(--c-ink) !important; }
+.iab-white .iab-svc-card__link:hover { border-color: var(--c-brand); box-shadow: 0 12px 28px #07456f1f; }
+.iab-white .iab-svc-card__icon { background: var(--c-brand); border-color: var(--c-brand); color: #ffffff; }
+.iab-white .iab-svc-card__title { color: var(--c-ink); }
+.iab-white .iab-svc-card__desc { color: var(--c-ink-soft); min-height: 84px; }
+.iab-white .iab-svc-card__points { border-top-color: var(--c-line); }
+.iab-white .iab-svc-card__points li { color: var(--c-ink); }
+.iab-white .iab-svc-card__points li::before { border-color: var(--c-brand); }
+.iab-white .iab-svc-card__more { color: var(--c-brand); }
+
+/* ════ 6. Ihre Vorteile na granacie (strona główna, Über uns) ════ */
+.iab-navy.iab-vorteile { background: var(--c-navy-900); }
+.iab-navy .iab-vorteile__item { background: var(--c-navy-800); border-color: var(--c-navy-line); }
+.iab-navy .iab-vorteile__icon { background: #ffffff; color: var(--c-brand); }
+.iab-navy .iab-vorteile__item p { color: #ffffff; }
+
+/* Karty ogólne na granacie (Über uns: Werte, Preise: czynniki ceny) */
+.iab-navy .iab-card { background: var(--c-navy-800); border-color: var(--c-navy-line); box-shadow: none; }
+.iab-navy .iab-card p, .iab-navy .iab-card h3 { color: #ffffff; }
+.iab-navy .iab-card__icon { background: #ffffff; color: var(--c-brand); }
+.iab-navy .iab-pricing-quote, .iab-navy blockquote { border-color: #ffffff; color: #ffffff; }
+
+/* ════ 7. FAQ na granacie (strona główna) ════ */
+.iab-navy .iab-accordion__item { background: var(--c-navy-800); border-color: var(--c-navy-line); }
+.iab-navy .iab-accordion__head, .iab-navy .iab-accordion__head span, .iab-navy .iab-accordion__panel, .iab-navy .iab-accordion__panel p { color: #ffffff; }
+.iab-navy .iab-final__cta { background: #ffffff; }
+.iab-navy .iab-final__cta :is(h3, p, a, span) { color: var(--c-ink) !important; }
+.iab-navy .iab-final__phone { border-color: var(--c-brand); }
+.iab-navy .iab-final .iab-btn--secondary, .iab-navy .iab-final__cta .iab-btn--secondary { background: var(--c-brand); border-color: var(--c-brand); color: #ffffff !important; }
+.iab-final__cta--tall p { color: var(--c-ink-soft); }
+/* FAQ na bieli (Über uns, FAQ) */
+.iab-accordion__head, .iab-accordion__head span { font-family: var(--font-body) !important; font-size: 16px !important; line-height: 24px !important; font-weight: 600; color: var(--c-ink); text-align: left; }
+.iab-accordion__item { border-color: var(--c-line-strong); }
+.iab-final:not(.iab-navy) .iab-final__cta { background: var(--c-brand); }
+.iab-final:not(.iab-navy) .iab-final__cta :is(h3, p, a, span) { color: #ffffff !important; }
+
+/* ════ 8. Vorher/Nachher na bieli ════ */
+.iab-white .iab-vergleich__stage { border-color: var(--c-line-strong); }
+.iab-white .iab-vergleich__item figcaption { color: var(--c-ink-soft); }
+
+/* ════ 9. Kontakt na bieli (strona główna, /kontakt/) ════ */
+.iab-white .iab-kontakt__list li, .iab-white .iab-kontakt__list strong, .iab-white .iab-kontakt__list a { color: var(--c-ink); }
+.iab-white .iab-kontakt__icon { background: var(--c-brand); border-color: var(--c-brand); color: #ffffff; }
+.iab-white .iab-kontakt__privacy { background: #ffffff; border-color: var(--c-line-strong); color: var(--c-ink); }
+.iab-white .iab-kontakt__privacy .iab-ico { color: var(--c-brand); }
+.iab-white .iab-kontakt__form { background: var(--c-navy-900); border-color: var(--c-navy-900); }
+.iab-white .iab-kontakt__form :is(label, p, span, .wpcf7-list-item-label) { color: #ffffff; }
+.iab-white .iab-kontakt__form :is(input[type="text"], input[type="email"], input[type="tel"], select, textarea) { background: #ffffff; color: var(--c-ink); border-color: #ffffff; }
+.iab-white .iab-kontakt__form ::placeholder { color: var(--c-ink-soft); }
+.iab-white .iab-kontakt__form :is(input, select, textarea):focus { outline: 2px solid #ffffff; outline-offset: 2px; }
+.iab-white .iab-kontakt__form .wpcf7-submit { background: #ffffff; color: var(--c-brand); border-color: #ffffff; opacity: 1; }
+
+/* ════ 10. Pasek CTA przed stopką: granat, przechodzi płynnie w stopkę (jeden granatowy blok zamykający) ════ */
+.iab-cta-band { background: var(--c-navy-900); padding-block: 80px; border-bottom: 1px solid var(--c-navy-line); }
+.iab-cta-band h2, .iab-cta-band p, .iab-cta-band__phone, .iab-cta-band__phone:hover { color: #ffffff; }
+.iab-cta-band__phone { border-color: #ffffff; font-size: 20px; line-height: 28px; }
+.iab-cta-band .iab-btn--secondary, .iab-cta-band .iab-btn--secondary:hover { background: #ffffff; color: var(--c-brand); border-color: #ffffff; }
+
+/* Przyciski na granacie */
+.iab-navy .iab-btn--primary { background: #ffffff; color: var(--c-brand); border-color: #ffffff; }
+.iab-navy .iab-btn--primary:hover { background: var(--c-brand-soft); border-color: var(--c-brand-soft); color: var(--c-brand); }
+.iab-navy .iab-btn--secondary { background: transparent; color: #ffffff; border-color: #ffffff; }
+.iab-navy .iab-price-card__amount { color: #ffffff; }
+.iab-section--joined { padding-top: 0; }
+
+/* Teksty prawne i długie adresy nie rozpychają telefonu */
+.iab-prose, .iab-prose a { overflow-wrap: anywhere; }
+
+/* Blog: ramka „Brauchen Sie Hilfe?” na granacie, bez szarości */
+.iab-blog-aside__cta { background: var(--c-navy-900); border-color: var(--c-navy-900); }
+.iab-blog-aside__cta h3, .iab-blog-aside__cta p { color: #ffffff; }
+
+/* ════ 11. Stopka: ten sam jeden granat ════ */
+.iab-footer { background: var(--c-navy-900) !important; border-radius: 0 !important; margin-top: 0 !important; box-shadow: none !important; }
+.iab-footer::before { display: none; }
+.iab-footer, .iab-footer p, .iab-footer a, .iab-footer li, .iab-footer span { color: #ffffff; }
+.iab-footer__h { font-family: var(--font-body) !important; font-size: 12px !important; line-height: 16px !important; letter-spacing: 2px; }
+
+/* ════ 12. Usługa: jeden schemat ════ */
+.iab-svc-intro__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: center; }
+.iab-svc-intro__text h2 { margin: 0 0 24px; }
+.iab-svc-intro__text p { max-width: 64ch; }
+.iab-svc-intro__text .iab-btn { margin-top: 32px; }
+.iab-svc-intro__media { margin: 0; border-radius: 8px; overflow: hidden; aspect-ratio: 4 / 5; }
+.iab-svc-intro__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.iab-svc-list__items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; margin: 0; padding: 0; list-style: none; }
+.iab-svc-list__items--scope { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.iab-svc-list__items li { display: flex; gap: 16px; align-items: flex-start; padding: 20px 0; border-top: 1px solid var(--c-line); font-weight: 500; }
+.iab-svc-list__items .iab-ico { width: 20px; height: 20px; flex: none; margin-top: 4px; color: var(--c-brand); }
+.iab-navy .iab-svc-list__items li { border-top-color: var(--c-navy-line); }
+.iab-navy .iab-svc-list__items .iab-ico { color: #ffffff; }
+
+.iab-svc-gallery__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.iab-svc-gallery__item { display: block; padding: 0; border: 0; border-radius: 8px; overflow: hidden; aspect-ratio: 4 / 3; cursor: zoom-in; background: var(--c-navy-800); }
+.iab-svc-gallery__item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 420ms var(--ease); }
+.iab-svc-gallery__item:hover img { transform: scale(1.04); }
+.iab-svc-gallery__item:focus-visible { outline: 2px solid #ffffff; outline-offset: 4px; }
+
+/* Oferta + FAQ usługi na bieli */
+.iab-white.iab-usluga-offer { background: #ffffff; }
+.iab-white .iab-usluga-offer__head .iab-eyebrow { color: var(--c-brand); }
+.iab-white .iab-usluga-offer__head h2, .iab-white .iab-usluga-offer__faq-label { color: var(--c-ink); }
+.iab-white .iab-usluga-offer__head p { color: var(--c-ink-soft); }
+.iab-usluga-offer__faq-label { font-size: 20px !important; line-height: 28px !important; font-weight: 600; }
+.iab-white .iab-usluga-offer__card { background: var(--c-navy-900); border: 0; box-shadow: none; }
+.iab-white .iab-usluga-offer__card :is(label, p, span, .wpcf7-list-item-label) { color: #ffffff; }
+.iab-white .iab-usluga-offer__card :is(input[type="text"], input[type="email"], input[type="tel"], select, textarea) { background: #ffffff; color: var(--c-ink); border-color: #ffffff; }
+.iab-white .iab-usluga-offer__card .wpcf7-submit { background: #ffffff; color: var(--c-brand); border-color: #ffffff; opacity: 1; }
+
+/* ════ 13. Responsywność - stałe wartości na progach ════ */
+@media (max-width: 1100px) {
+	h1, .iab-hero__title, .iab-hero--navy .iab-hero__title, .iab-subhero__title, .iab-art-hero__title, .iab-blog-hero__title { font-size: 40px !important; line-height: 48px !important; }
+	.iab-svc-list__items--scope { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+	.iab-section { padding-block: 64px; }
+	.iab-hero--navy { padding-block: 64px 72px; }
+	.iab-subhero--navy, .iab-art-hero--navy { padding-block: 56px; }
+	.iab-cta-band { padding-block: 64px; }
+	h1, .iab-hero__title, .iab-hero--navy .iab-hero__title, .iab-subhero__title, .iab-art-hero__title, .iab-blog-hero__title { font-size: 32px !important; line-height: 40px !important; }
+	h2, .iab-section-head h2, .iab-cta-band h2, .iab-usluga-offer__head h2, .iab-prose h2, .iab-art-prose h2 { font-size: 28px !important; line-height: 36px !important; }
+	.iab-section-head p, .iab-subhero__lead, .iab-subhero p, .iab-art-hero__lead, .iab-hero__intro p, .iab-hero__lead { font-size: 16px !important; line-height: 28px !important; }
+	.iab-section-head { margin-bottom: 32px; }
+	.iab-svc-intro__grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+	.iab-svc-intro__media { aspect-ratio: 4 / 3; }
+	.iab-svc-list__items, .iab-svc-list__items--scope { grid-template-columns: minmax(0, 1fr); }
+	.iab-svc-gallery__grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+	.iab-white .iab-svc-card__desc { min-height: 0; }
+	.iab-hero--navy .iab-hero__copy { text-align: left; align-items: flex-start; }
+	.iab-hero__cta { justify-content: flex-start; width: 100%; }
+}
+@media (min-width: 600px) and (max-width: 860px) {
+	.iab-svc-gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Pasek informacyjny: na 861-1100 px skrócony do kontaktu (pełna lista nie mieściła się na 1024 px) */
+@media (max-width: 1100px) {
+	.iab-topbar__facts li:nth-child(n+2) { display: none; }
+}
